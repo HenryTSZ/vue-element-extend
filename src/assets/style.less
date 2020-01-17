@@ -1,0 +1,125 @@
+@bar-color: rgba(144, 147, 153, .5);
+@border-color: #c3e0f5;
+
+html,
+input,
+select,
+textarea {
+  font-family: 'Helvetica Neue', Helvetica, STHeiTi, Arial, sans-serif;
+  font-size: 14px;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+.text-more {
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.h100 {
+  height: 100%;
+}
+
+.el-dialog__header {
+  border: 1px solid #e9eaec;
+}
+.el-dialog__body {
+  padding: 20px;
+}
+.el-dialog__footer {
+  padding: 0 20px 20px;
+}
+
+.el-table {
+  border-left: 1px solid @border-color !important;
+  thead {
+    color: #000;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  tbody {
+    color: #000;
+    font-size: 14px;
+  }
+}
+.el-table th,
+.el-table::after,
+.el-table::before,
+.el-table__footer-wrapper thead div,
+.el-table__header-wrapper thead div {
+  background-color: #d7eaf8 !important;
+}
+.el-table td,
+.el-table th.is-leaf {
+  border-bottom: 1px solid @border-color !important;
+}
+.el-table td, .el-table th {
+  padding: 6px 0 ;
+}
+.el-table--border td,
+.el-table--border th {
+  border-right: 1px solid @border-color !important;
+}
+.el-table--border th {
+  border-bottom: 1px solid @border-color !important;
+}
+.el-table--enable-row-hover .el-table__body tr:hover > td {
+  background-color: #f5fafe !important;
+}
+
+// .el-table {
+//   thead {
+//     color: #000;
+//     font-size: 14px;
+//     font-weight: 700;
+//   }
+//   th,
+//   &:after,
+//   &:before {
+//     background-color: @border-color;
+//   }
+// }
+// .el-table--border,
+// .el-table--group {
+//   border: 1px solid @border-color;
+//   &:after,
+//   &:before {
+//     background-color: @border-color;
+//   }
+// }
+// .el-table--border {
+//   border-right: none;
+//   border-bottom: none;
+// }
+
+.el-tabs--border-card>.el-tabs__header .el-tabs__item {
+  color: #303133;
+}
+
+.el-tree {
+  .el-tree-node__content {
+    height: 36px;
+    line-height: 36px;
+  }
+}
+.el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content {
+  background: #c5e6ff;
+}
+
+.el-loading-mask.is-fullscreen {
+  background: rgba(255, 255, 255, .9);
+  transition: opacity .3s 2s;
+}
