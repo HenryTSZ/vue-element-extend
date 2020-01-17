@@ -2,10 +2,6 @@ module.exports = {
   // 项目部署的基础路径
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
 
-  // 将构建好的文件输出到哪里
-  // TODO 需要修改成自己项目打包后的目录
-  outputDir: '/public',
-
   // 是否在保存的时候使用 `eslint-loader` 进行检查。
   lintOnSave: process.env.NODE_ENV !== 'production',
 
