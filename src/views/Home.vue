@@ -43,7 +43,7 @@ export default {
           child: ['TreeCheckboxs', 'EditableTable', 'Upload']
         },
         {
-          name: 'echart',
+          name: 'vue-echarts',
           child: [
             'BaseLineChart',
             'BaseBarChart',
@@ -78,11 +78,7 @@ export default {
           })
       }
     }
-  },
-  watch: {},
-  methods: {},
-  created() {},
-  mounted() {}
+  }
 }
 </script>
 
