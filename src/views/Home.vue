@@ -14,7 +14,7 @@
       </el-aside>
       <el-main class="h100">
         <el-scrollbar>
-          <component :is="name"></component>
+          <component :is="name" class="home-content"></component>
         </el-scrollbar>
       </el-main>
     </el-container>
@@ -40,7 +40,7 @@ export default {
         },
         {
           name: 'element-ui',
-          child: ['TreeCheckboxs', 'EditableTable', 'Upload']
+          child: ['ElSelectTree', 'TreeCheckboxs', 'EditableTable', 'Upload']
         },
         {
           name: 'vue-echarts',
@@ -113,6 +113,12 @@ export default {
     border-right: solid 1px #e6e6e6;
     .el-menu {
       border-right: none;
+    }
+  }
+  .el-main {
+    padding-right: 0;
+    .home-content {
+      padding-right: 20px;
     }
   }
   .el-scrollbar {

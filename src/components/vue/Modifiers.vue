@@ -5,7 +5,7 @@
         >具体介绍请戳我qaq</a
       >
     </h2>
-    <el-row :gutter="20">
+    <el-row>
       <el-col :span="12">
         <h3>原生 input 未加 lazy 修饰符</h3>
         <div>
@@ -294,6 +294,7 @@ export default {
 .modifiers {
   .el-col {
     height: 150px;
+    padding: 0 10px;
   }
   .capture {
     height: 200px;
