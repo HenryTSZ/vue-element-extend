@@ -1,19 +1,11 @@
 <template>
   <div class="b-tree">
-    <el-checkbox
-      v-if="showCheckAll && showCheckbox"
-      class="b-tree-check-all"
-      :indeterminate="isIndeterminate"
-      v-model="checkAll"
-      @change="handleCheckAllChange"
-      >全选</el-checkbox
-    >
     <el-tree
       :ref="ref"
       v-bind="$attrs"
+      :data="treeData"
       :show-checkbox="showCheckbox"
       v-on="$listeners"
-      @check="handleCheck"
     >
       <slot slot-scope="{ node, data }" v-bind="{ node, data }"> {{ node.label }} </slot>
     </el-tree>
@@ -24,6 +16,12 @@
 export default {
   name: 'Tree',
   props: {
+    data: {
+      type: Array,
+      default() {
+        return []
+      }
+    },
     showCheckAll: {
       type: Boolean,
       default: false
@@ -39,15 +37,21 @@ export default {
   },
   data() {
     return {
+      treeData: [],
       ref: 'elTree',
-      isIndeterminate: false,
-      checkAll: false
+      nodeKey: '',
+      checkAllId: '__rootId__'
     }
   },
   watch: {
     level: {
       handler: 'expandToLevel',
       immediate: true
+    }
+  },
+  computed: {
+    isCheckAll() {
+      return this.showCheckAll && this.showCheckbox
     }
   },
   methods: {
@@ -75,61 +79,48 @@ export default {
         }
       })
     },
-    // 处理全选
-    handleCheckAllChange() {
-      this.isIndeterminate = false
-      let checkedKeys = []
-      if (this.checkAll) {
-        const elTreeStore = this.$refs[this.ref].store
-        const checkedNodes = elTreeStore._getAllNodes().filter(({ visible }) => visible)
-        checkedKeys = checkedNodes.map(({ key }) => key)
-        this.$emit(
-          'check',
-          { [this.$refs[this.ref].props.label || 'label']: '全选' },
-          {
-            checkedNodes,
-            checkedKeys,
-            halfCheckedNodes: [],
-            halfCheckedKeys: []
-          }
-        )
-      } else {
-        this.$emit(
-          'check',
-          { [this.$refs[this.ref].props.label || 'label']: '全选' },
-          {
-            checkedNodes: [],
-            checkedKeys: [],
-            halfCheckedNodes: [],
-            halfCheckedKeys: []
-          }
-        )
+    getCheckedNodes(leafOnly, includeHalfChecked) {
+      if (this.isCheckAll) {
+        return this.$refs[this.ref]
+          .getCheckedNodes(leafOnly, includeHalfChecked)
+          .filter(node => node[this.nodeKey] !== this.checkAllId)
       }
-      this.$refs[this.ref].setCheckedKeys(checkedKeys)
+      return this.$refs[this.ref].getCheckedNodes(leafOnly, includeHalfChecked)
     },
-    // el-tree 复选框被点击
-    handleCheck(data, checked) {
-      if (!this.showCheckAll) {
-        return
+    getHalfCheckedNodes() {
+      if (this.isCheckAll) {
+        return this.$refs[this.ref]
+          .getHalfCheckedNodes()
+          .filter(node => node[this.nodeKey] !== this.checkAllId)
       }
-      const { checkedKeys } = checked
-      const elTreeStore = this.$refs[this.ref].store
-      const allNodes = elTreeStore._getAllNodes().filter(({ visible }) => visible)
-      if (checkedKeys.length) {
-        if (checkedKeys.length === allNodes.length) {
-          this.checkAll = true
-          this.isIndeterminate = false
-        } else {
-          this.checkAll = false
-          this.isIndeterminate = true
-        }
-      } else {
-        this.isIndeterminate = false
-        this.checkAll = false
+      return this.$refs[this.ref].getHalfCheckedNodes()
+    },
+    getCheckedKeys(leafOnly) {
+      if (this.isCheckAll) {
+        return this.$refs[this.ref].getCheckedKeys(leafOnly).filter(key => key !== this.checkAllId)
       }
+      return this.$refs[this.ref].getCheckedKeys(leafOnly)
+    },
+    getHalfCheckedKeys() {
+      if (this.isCheckAll) {
+        return this.$refs[this.ref].getHalfCheckedKeys().filter(key => key !== this.checkAllId)
+      }
+      return this.$refs[this.ref].getHalfCheckedKeys()
     }
   },
   mounted() {
+    if (this.isCheckAll) {
+      this.nodeKey = this.$refs[this.ref].nodeKey || 'id'
+      this.treeData = [
+        {
+          [this.$refs[this.ref].props.label]: '全选',
+          [this.nodeKey]: this.checkAllId,
+          [this.$refs[this.ref].props.children]: this.data
+        }
+      ]
+    } else {
+      this.treeData = this.data
+    }
     // 绑定 el-tree 方法
     for (let key in this.$refs[this.ref]) {
       if (!(key in this) && typeof this.$refs[this.ref][key] === 'function') {

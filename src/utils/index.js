@@ -3,7 +3,7 @@
  * @File: 公共方法
  * @Date: 2019-07-12 13:43:21
  * @Last Modified by: lhajh
- * @Last Modified time: 2020-01-17 14:07:37
+ * @Last Modified time: 2020-01-28 09:33:01
  */
 
 const upperFirst = str => {
@@ -54,7 +54,7 @@ const getTreeMaxLevel = (treeData, childrenKey = 'children') => {
   } else {
     let max = 1
     for (const item of treeData) {
-      const level = 1 + getTreeMaxLevel(item[childrenKey] || [])
+      const level = 1 + getTreeMaxLevel(item[childrenKey] || [], childrenKey)
       max = Math.max(level, max)
     }
     return max

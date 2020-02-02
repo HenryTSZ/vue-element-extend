@@ -40,7 +40,7 @@ export default {
         },
         {
           name: 'element-ui',
-          child: ['ElSelectTree', 'TreeCheckboxs', 'EditableTable', 'Upload']
+          child: ['BaseTree', 'BaseSelectTree', 'TreeCheckboxs', 'EditableTable', 'Upload']
         },
         {
           name: 'vue-echarts',

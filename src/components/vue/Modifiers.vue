@@ -1,9 +1,14 @@
 <template>
   <div class="modifiers">
     <h2>
-      <a href="https://lhajh.github.io/vue/2018/09/10/Vue-Modifiers.html" target="_blank"
-        >具体介绍请戳我qaq</a
-      >
+      <el-link
+        type="primary"
+        :underline="false"
+        href="https://tsz.now.sh/2018/09/10/vue-modifiers/"
+        target="_blank"
+        >具体介绍请戳我 qaq <i class="el-icon-share el-icon--right"></i
+      ></el-link>
+      <p>注: 本测试 element-ui 版本为: "^2.13.0", vue 版本为: "^2.6.10"</p>
     </h2>
     <el-row>
       <el-col :span="12">
@@ -92,49 +97,49 @@
       </el-col>
       <el-col :span="12">
         <h3>原生 button 未加 stop 修饰符</h3>
-        <div @click="shout(2)">
+        <div class="blue" @click="shout(2)">
           <button class="el-button" @click="shout(1)">ok</button>
         </div>
       </el-col>
       <el-col :span="12">
         <h3>Element UI 未加 stop 修饰符</h3>
-        <div @click="shout(2)">
+        <div class="blue" @click="shout(2)">
           <el-button @click="shout(1)">ok</el-button>
         </div>
       </el-col>
       <el-col :span="12">
         <h3>原生 button 加 stop 修饰符</h3>
-        <div @click="shout(2)">
+        <div class="blue" @click="shout(2)">
           <button class="el-button" @click.stop="shout(1)">ok</button>
         </div>
       </el-col>
       <el-col :span="12">
         <h3>Element UI 加 stop 修饰符</h3>
-        <div @click="shout(2)">
+        <div class="blue" @click="shout(2)">
           <el-button @click.stop="shout(1)">ok</el-button>
         </div>
       </el-col>
       <el-col :span="12">
         <h3>原生父元素 未加 self 修饰符</h3>
-        <div @click="shout(2)">
+        <div class="blue" @click="shout(2)">
           <button class="el-button" @click="shout(1)">ok</button>
         </div>
       </el-col>
       <el-col :span="12">
         <h3>Element UI 未加 self 修饰符</h3>
-        <div @click="shout(2)">
+        <div class="blue" @click="shout(2)">
           <el-button @click="shout(1)">ok</el-button>
         </div>
       </el-col>
       <el-col :span="12">
         <h3>原生父元素 加 self 修饰符</h3>
-        <div @click.self="shout(2)">
+        <div class="blue" @click.self="shout(2)">
           <button class="el-button" @click.stop="shout(1)">ok</button>
         </div>
       </el-col>
       <el-col :span="12">
         <h3>Element UI 加 self 修饰符</h3>
-        <div @click.self="shout(2)">
+        <div class="blue" @click.self="shout(2)">
           <el-button @click.stop="shout(1)">ok</el-button>
         </div>
       </el-col>
@@ -292,6 +297,9 @@ export default {
 
 <style lang="less">
 .modifiers {
+  .el-link {
+    font-size: inherit;
+  }
   .el-col {
     height: 150px;
     padding: 0 10px;
@@ -301,6 +309,11 @@ export default {
     div {
       padding: 10px;
     }
+  }
+  .blue {
+    background: #409eff;
+    text-align: center;
+    cursor: pointer;
   }
 }
 </style>

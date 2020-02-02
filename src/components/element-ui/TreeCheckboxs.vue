@@ -11,7 +11,7 @@
 
     4. 使用的是 tree 的自定义节点内容
 
-    5. http://element-cn.eleme.io/2.4/#/zh-CN/component/tree#zi-ding-yi-jie-dian-nei-ron
+    5. https://element.eleme.cn/2.13/#/zh-CN/component/tree#zi-ding-yi-jie-dian-nei-rong
     </code></pre>
     <el-tree :data="privilegeList" default-expand-all :expand-on-click-node="false">
       <div class="custom-tree-node" slot-scope="{ node, data }">

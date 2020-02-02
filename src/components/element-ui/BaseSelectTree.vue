@@ -6,59 +6,10 @@
       :tree-props="treeProps"
       @change="change"
     ></select-tree>
-    <el-input placeholder="输入关键字进行过滤" v-model="filterText"> </el-input>
-    <el-input-number v-model="level" placeholder="level"></el-input-number>
-    <tree
-      ref="tree"
-      show-check-all
-      v-bind="treeProps"
-      :level="level"
-      :filter-node-method="filterNode"
-      show-checkbox
-      @check-change="checkChange"
-      @check="check"
-    ></tree>
-    <tree
-      ref="tree"
-      v-bind="treeProps"
-      :level="level"
-      :filter-node-method="filterNode"
-      show-checkbox
-    >
-      <span class="custom-tree-node" slot-scope="{ node, data }">
-        <span>{{ node.label }}</span>
-        <span>
-          <el-button type="text" size="mini" @click="() => append(data)">
-            Append
-          </el-button>
-          <el-button type="text" size="mini" @click="() => remove(node, data)">
-            Delete
-          </el-button>
-        </span>
-      </span>
-    </tree>
-
-    <div class="buttons">
-      <el-button @click="getCheckedNodes">通过 node 获取</el-button>
-      <el-button @click="getCheckedKeys">通过 key 获取</el-button>
-      <el-button @click="setCheckedNodes">通过 node 设置</el-button>
-      <el-button @click="setCheckedKeys">通过 key 设置</el-button>
-      <el-button @click="resetChecked">清空</el-button>
-    </div>
-
-    <tree
-      :data="[{ name: 'region11' }, { name: 'aa11' }]"
-      :props="props"
-      :load="loadNode"
-      :level="level"
-      lazy
-      show-checkbox
-    ></tree>
   </div>
 </template>
 
 <script>
-import Tree from 'plugins/Tree'
 import SelectTree from 'plugins/SelectTree'
 const data = [
   {
@@ -111,8 +62,8 @@ const data = [
   }
 ]
 export default {
-  name: 'ElSelectTree',
-  components: { SelectTree, Tree },
+  name: 'BsseSelectTree',
+  components: { SelectTree },
   props: {},
   data() {
     return {
