@@ -64,6 +64,7 @@ export default {
       this.$nextTick(() => {
         const elTreeStore = this.$refs[this.ref].store
         const allNodes = elTreeStore._getAllNodes().sort((a, b) => b.level - a.level)
+        console.log('TCL: expandToLevel -> allNodes', allNodes)
         if (level === 0) {
           // 展开全部
           allNodes.forEach(node => {
@@ -113,7 +114,6 @@ export default {
       this.$refs[this.ref].setCheckedKeys(checkedKeys)
     },
     handleCheckChange() {
-      console.log(444)
       if (!this.showCheckAll || !this.showCheckbox) {
         return
       }
@@ -121,7 +121,6 @@ export default {
       if (Date.now() - this.time > 100) {
         this.time = Date.now()
       } else {
-        console.log('return')
         return
       }
       this.$nextTick(() => {

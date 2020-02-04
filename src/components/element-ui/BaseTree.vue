@@ -7,23 +7,35 @@
 
   2. 展开到 level 级 prop: level, Number: 0: 展开全部, 1: 展开到一级, ...
 
-  3. 其余所有 props/Event/方法 均与 el-tree 一样
+  3. 其余所有 props / Event / 方法 均与 el-tree 一样
 
   4. 具体实现请移步 <el-link
       type="primary"
       :underline="false"
       href="https://tsz.now.sh/2020/01/02/based-on-element-ui-encapsulation-tree/"
       target="_blank"
-      >基于 ElementUI 封装的 Tree | Henry</el-link>
+      >基于 ElementUI 封装的 Tree | Henry</el-link
+    > 和 <el-link
+      type="primary"
+      :underline="false"
+      href="https://tsz.now.sh/2020/01/31/based-on-element-ui-encapsulation-tree-2/"
+      target="_blank"
+      >基于 ElementUI 封装的 Tree2 | Henry</el-link
+    >
 
   5. <el-link
       type="primary"
       :underline="false"
-      href="https://github.com/HenryTSZ/vue-element-extend/blob/master/src/plugins/Tree.vue"
+      href="https://github.com/HenryTSZ/vue-element-extend/blob/master/src/plugins"
       target="_blank"
-      >源码</el-link>
+      >源码</el-link> 页面的 Tree1.vue, Tree2.vue, Tree3.vue
 
     </code></pre>
+    <el-radio-group v-model="treeName">
+      <el-radio label="Tree1">Tree1</el-radio>
+      <el-radio label="Tree2">Tree2</el-radio>
+      <el-radio label="Tree3">Tree3</el-radio>
+    </el-radio-group>
     展开到
     <el-input-number v-model="level" :min="0" :max="levels" label="描述文字"></el-input-number>
     级
@@ -37,18 +49,21 @@
       <el-button @click="setCheckedKeys">通过 key 设置</el-button>
       <el-button @click="resetChecked">清空</el-button>
     </div>
-    <tree
+    <component
+      :is="treeName"
       ref="tree"
       v-bind="treeProps"
       :level="level"
       @check="check"
       @check-change="handleCheckChange"
-    ></tree>
+    ></component>
   </div>
 </template>
 
 <script>
-import Tree from 'plugins/Tree3'
+import Tree1 from 'plugins/Tree1'
+import Tree2 from 'plugins/Tree2'
+import Tree3 from 'plugins/Tree3'
 const data = [
   {
     menuId: 1,
@@ -101,10 +116,11 @@ const data = [
 ]
 export default {
   name: 'BaseTree',
-  components: { Tree },
+  components: { Tree1, Tree2, Tree3 },
   props: {},
   data() {
     return {
+      treeName: 'Tree1',
       level: 0,
       treeProps: {
         data,
@@ -184,6 +200,10 @@ export default {
   }
   .b-tree {
     margin-top: 20px;
+  }
+  .el-radio-group {
+    display: block;
+    margin-bottom: 20px;
   }
   .custom-tree-node {
     flex: 1;
