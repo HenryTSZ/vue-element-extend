@@ -30,6 +30,7 @@ export default {
     return {
       polar: {},
       title: '',
+      textColor: '#333',
       baseColor: [
         '#2e8a00',
         '#007fff',
@@ -73,7 +74,7 @@ export default {
         title: {
           text: this.options.text || '',
           textStyle: {
-            color: this.options.textColor || '#fff',
+            color: this.options.textColor || this.textColor,
             fontSize: this.options.textFontSize || 18
           },
           subtext:
@@ -98,7 +99,7 @@ export default {
           right: !this.options.hideTooltip ? 60 : 0,
           top: this.options.legendTop || 25,
           textStyle: {
-            color: this.options.legendColor || '#fff',
+            color: this.options.legendColor || this.textColor,
             fontSize: this.options.legendFontSize || 12
           }
         },
@@ -125,7 +126,7 @@ export default {
           top: this.options.toolboxTop || 25,
           iconStyle: {
             normal: {
-              borderColor: '#fff'
+              borderColor: this.textColor
             }
           }
         },
@@ -149,7 +150,7 @@ export default {
             axisLine: {
               show: this.options.hideyAxisLine === undefined ? true : !this.options.hideyAxisLine,
               lineStyle: {
-                color: this.options.yAxisColor || '#fff'
+                color: this.options.yAxisColor || this.textColor
               }
             },
             // 坐标轴刻度
@@ -160,7 +161,7 @@ export default {
             // 坐标轴刻度标签
             axisLabel: {
               fontSize: this.options.yAxisFontSize || 12,
-              color: this.options.yAxisColor || '#fff',
+              color: this.options.yAxisColor || this.textColor,
               // 坐标轴刻度标签的显示间隔，在类目轴中有效。可以设置成 0 强制显示所有标签。
               interval: 0,
               formatter(value) {
@@ -193,7 +194,7 @@ export default {
             axisLine: {
               show: this.options.hideyAxisLine === undefined ? true : !this.options.hideyAxisLine,
               lineStyle: {
-                color: this.options.yAxisColor || '#fff'
+                color: this.options.yAxisColor || this.textColor
               }
             },
             // 坐标轴刻度
@@ -204,7 +205,7 @@ export default {
             // 坐标轴刻度标签
             axisLabel: {
               fontSize: this.options.yAxisFontSize || 12,
-              color: this.options.yAxisColor || '#fff'
+              color: this.options.yAxisColor || this.textColor
             }
           }
         ],

@@ -14,6 +14,9 @@ import 'echarts'
 import Echarts from 'vue-echarts'
 Vue.component('chart', Echarts)
 
+import CanvasPoster from 'vue-canvas-poster'
+Vue.use(CanvasPoster)
+
 import 'assets/iconfont/iconfont.css'
 import 'assets/reset.css'
 import 'assets/style.less'

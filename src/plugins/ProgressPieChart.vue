@@ -31,6 +31,7 @@ export default {
     return {
       polar: {},
       title: '',
+      textColor: '#333',
       baseColor: [
         '#2e8a00',
         '#007fff',
@@ -59,7 +60,7 @@ export default {
         title: {
           text: this.options.text || '',
           textStyle: {
-            color: this.options.textColor || '#fff',
+            color: this.options.textColor || this.textColor,
             fontSize: this.options.textSize || 14
           },
           subtext: this.options.subtext || '',
@@ -74,7 +75,7 @@ export default {
           left: this.$utils.checkParameter(this.options.legendLeft, 20),
           top: this.$utils.checkParameter(this.options.legendTop, 30),
           textStyle: {
-            color: this.options.legendColor || '#fff'
+            color: this.options.legendColor || this.textColor
           }
         },
         // 提示框
@@ -97,7 +98,7 @@ export default {
           top: this.$utils.checkParameter(this.options.toolboxTop, 30),
           iconStyle: {
             normal: {
-              borderColor: '#fff'
+              borderColor: this.textColor
             }
           }
         },

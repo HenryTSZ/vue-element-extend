@@ -119,7 +119,7 @@ export default {
   .nav-arrow {
     position: absolute;
     top: 50%;
-    color: #fff;
+    color: #333;
     margin-top: -20px;
     height: 40px;
     line-height: 40px;
@@ -132,10 +132,10 @@ export default {
     color: #ccc;
   }
   .nav-prev {
-    left: -10px;
+    left: 0;
   }
   .nav-next {
-    right: -10px;
+    right: 0;
   }
 }
 </style>

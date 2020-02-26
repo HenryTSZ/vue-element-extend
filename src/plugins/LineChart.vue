@@ -30,6 +30,7 @@ export default {
     return {
       polar: {},
       title: '',
+      textColor: '#333',
       baseColor: [
         '#2e8a00',
         '#007fff',
@@ -73,13 +74,13 @@ export default {
         title: {
           text: this.options.text || '',
           textStyle: {
-            color: this.options.textColor || '#fff'
+            color: this.options.textColor || this.textColor
           },
           subtext:
             this.options.subtext ||
             (isZoom ? '当前数据较多，请滚动鼠标或缩放屏幕查看完整数据' : ''),
           subtextStyle: {
-            color: this.options.subtextColor || '#f49800',
+            color: this.options.subtextColor || '#aaa',
             fontSize: this.options.subtextFontSize || 12
           },
           left: this.options.titleLeft || 'center'
@@ -94,7 +95,7 @@ export default {
           itemWidth: 40,
           itemHeight: 20,
           textStyle: {
-            color: this.options.legendColor || '#fff'
+            color: this.options.legendColor || this.textColor
           }
         },
         // 提示框
@@ -120,7 +121,7 @@ export default {
           top: this.$utils.checkParameter(this.options.toolboxTop, 20),
           iconStyle: {
             normal: {
-              borderColor: '#fff'
+              borderColor: this.textColor
             }
           }
         },
@@ -142,7 +143,7 @@ export default {
             axisLine: {
               show: !this.options.hideAxisLine,
               lineStyle: {
-                color: this.options.xAxisColor || '#fff'
+                color: this.options.xAxisColor || this.textColor
               }
             },
             // 坐标轴在 grid 区域中的分隔线
@@ -195,7 +196,7 @@ export default {
             axisLine: {
               show: !this.options.hideAxisLine,
               lineStyle: {
-                color: this.options.yAxisColor || '#fff'
+                color: this.options.yAxisColor || this.textColor
               }
             },
             // 坐标轴在 grid 区域中的分隔线

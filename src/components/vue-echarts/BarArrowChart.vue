@@ -1,7 +1,7 @@
 <template>
-  <div class="bar-arrow-chart">
+  <div class="base-chart">
     <el-row :gutter="20">
-      <el-col :span="12" v-for="item in bars" :key="item.id">
+      <el-col :span="12" class="chart-col" v-for="item in bars" :key="item.id">
         <bar-chart :options="item.bar"></bar-chart>
       </el-col>
     </el-row>
@@ -80,13 +80,3 @@ export default {
   mounted() {}
 }
 </script>
-
-<style lang="less">
-.bar-arrow-chart {
-  padding: 10px;
-  .el-col {
-    height: 300px;
-    margin-bottom: 50px;
-  }
-}
-</style>

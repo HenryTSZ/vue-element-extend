@@ -31,6 +31,7 @@ export default {
     return {
       polar: {},
       title: '',
+      textColor: '#333',
       baseColor: [
         '#2e8a00',
         '#007fff',
@@ -74,7 +75,7 @@ export default {
         title: {
           text: this.options.text || '',
           textStyle: {
-            color: this.options.textColor || '#fff',
+            color: this.options.textColor || this.textColor,
             fontSize: this.options.textFontSize || 18
           },
           subtext:
@@ -99,7 +100,7 @@ export default {
           right: !this.options.hideTooltip ? 60 : 0,
           top: this.options.legendTop || 25,
           textStyle: {
-            color: this.options.legendColor || '#fff',
+            color: this.options.legendColor || this.textColor,
             fontSize: this.options.legendFontSize || 12
           }
         },
@@ -126,7 +127,7 @@ export default {
           top: this.options.toolboxTop || 25,
           iconStyle: {
             normal: {
-              borderColor: '#fff'
+              borderColor: this.textColor
             }
           }
         },
@@ -147,7 +148,7 @@ export default {
             axisLine: {
               show: this.options.hidexAxisLine === undefined ? true : !this.options.hidexAxisLine,
               lineStyle: {
-                color: this.options.xAxisColor || '#fff'
+                color: this.options.xAxisColor || this.textColor
               }
             },
             // 坐标轴刻度
@@ -192,7 +193,7 @@ export default {
             axisLine: {
               show: this.options.hideyAxisLine === undefined ? true : !this.options.hideyAxisLine,
               lineStyle: {
-                color: this.options.yAxisColor || '#fff'
+                color: this.options.yAxisColor || this.textColor
               }
             },
             // 坐标轴刻度
@@ -210,12 +211,13 @@ export default {
           this.polar.series.push({
             name: item,
             type: 'bar',
+            ...(this.options.isStack && { stack: '总量' }),
             barMaxWidth: 25,
             data: this.options.yAxis[index],
             label: {
               show: this.options.showLabel,
               position: this.options.labelPosition || 'top',
-              color: this.options.labelColor || '#fff',
+              color: this.options.labelColor || this.textColor,
               fontSize: this.options.labelFontSize || 12
             }
           })
@@ -251,7 +253,7 @@ export default {
             label: {
               show: this.options.showLabel,
               position: this.options.labelPosition || 'top',
-              color: this.options.labelColor || '#fff',
+              color: this.options.labelColor || this.textColor,
               fontSize: this.options.labelFontSize || 12
             },
             itemStyle: {
@@ -299,7 +301,7 @@ export default {
             label: {
               show: this.options.showLabel,
               position: this.options.labelPosition || 'right',
-              color: this.options.labelColor || '#fff',
+              color: this.options.labelColor || this.textColor,
               fontSize: this.options.labelFontSize || 12
             },
             itemStyle: this.options.isGradient

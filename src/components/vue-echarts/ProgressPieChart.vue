@@ -1,7 +1,7 @@
 <template>
-  <div class="progress-pie-chart">
+  <div class="base-chart">
     <el-row :gutter="20">
-      <el-col :span="12" v-for="item in pies" :key="item.id">
+      <el-col :span="12" class="chart-col" v-for="item in pies" :key="item.id">
         <pie-chart :options="item.pie"></pie-chart>
       </el-col>
     </el-row>
@@ -42,13 +42,3 @@ export default {
   mounted() {}
 }
 </script>
-
-<style lang="less">
-.progress-pie-chart {
-  padding: 10px;
-  .el-col {
-    height: 300px;
-    margin-bottom: 50px;
-  }
-}
-</style>

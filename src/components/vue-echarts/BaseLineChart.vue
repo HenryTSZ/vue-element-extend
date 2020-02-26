@@ -1,7 +1,7 @@
 <template>
-  <div class="base-line-chart">
+  <div class="base-chart">
     <el-row :gutter="20">
-      <el-col :span="12" v-for="item in lines" :key="item.id">
+      <el-col :span="12" class="chart-col" v-for="item in lines" :key="item.id">
         <line-chart :options="item.line"></line-chart>
       </el-col>
     </el-row>
@@ -155,13 +155,3 @@ export default {
   mounted() {}
 }
 </script>
-
-<style lang="less">
-.base-line-chart {
-  padding: 10px;
-  .el-col {
-    height: 300px;
-    margin-bottom: 50px;
-  }
-}
-</style>

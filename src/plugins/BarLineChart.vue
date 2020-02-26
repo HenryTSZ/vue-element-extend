@@ -31,6 +31,7 @@ export default {
     return {
       polar: {},
       title: '',
+      textColor: '#333',
       baseColor: [
         '#45a1f8',
         '#e7aa27',
@@ -63,7 +64,7 @@ export default {
         title: {
           text: this.options.text || '',
           textStyle: {
-            color: '#fff'
+            color: this.textColor
           },
           subtext:
             this.options.subtext ||
@@ -82,7 +83,7 @@ export default {
           right: !this.options.hideTooltip ? 60 : 20,
           top: this.options.legendTop || 25,
           textStyle: {
-            color: this.options.legendColor || '#fff'
+            color: this.options.legendColor || this.textColor
           }
         },
         // 提示框
@@ -108,7 +109,7 @@ export default {
           top: this.options.toolboxTop || 25,
           iconStyle: {
             normal: {
-              borderColor: '#fff'
+              borderColor: this.textColor
             }
           }
         },
@@ -127,7 +128,7 @@ export default {
             // 坐标轴轴线
             axisLine: {
               lineStyle: {
-                color: '#fff'
+                color: this.textColor
               }
             },
             // 坐标轴刻度
@@ -167,7 +168,7 @@ export default {
             show: !this.options.hideyAxis,
             axisLine: {
               lineStyle: {
-                color: '#fff'
+                color: this.textColor
               }
             }
           }
@@ -242,7 +243,7 @@ export default {
             show: !this.options.hideyAxis,
             axisLine: {
               lineStyle: {
-                color: '#fff'
+                color: this.textColor
               }
             }
           }
@@ -254,7 +255,7 @@ export default {
             data: this.options.xAxis,
             axisLine: {
               lineStyle: {
-                color: '#fff'
+                color: this.textColor
               }
             },
             axisTick: {

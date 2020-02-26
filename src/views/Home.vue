@@ -35,6 +35,10 @@ export default {
           child: ['Readme']
         },
         {
+          name: 'third-party',
+          child: ['vue-canvas-poster', 'wl-gantt']
+        },
+        {
           name: 'vue',
           child: ['Modifiers']
         },
@@ -45,6 +49,7 @@ export default {
         {
           name: 'vue-echarts',
           child: [
+            'Readme',
             'BaseLineChart',
             'BaseBarChart',
             'BasePieChart',
@@ -126,6 +131,13 @@ export default {
   }
   .el-scrollbar__wrap {
     overflow: auto;
+  }
+
+  .base-chart {
+    padding: 10px;
+    .chart-col {
+      height: 450px;
+    }
   }
 }
 </style>
