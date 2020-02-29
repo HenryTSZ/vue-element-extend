@@ -4,6 +4,7 @@
       :ref="ref"
       v-bind="$attrs"
       :data="treeData"
+      :node-key="nodeKey"
       :show-checkbox="showCheckbox"
       v-on="$listeners"
     >
@@ -22,6 +23,10 @@ export default {
         return []
       }
     },
+    nodeKey: {
+      type: String,
+      default: 'id'
+    },
     showCheckAll: {
       type: Boolean,
       default: false
@@ -39,7 +44,6 @@ export default {
     return {
       treeData: [],
       ref: 'elTree',
-      nodeKey: '',
       checkAllId: '__rootId__'
     }
   },
@@ -110,7 +114,6 @@ export default {
   },
   mounted() {
     if (this.isCheckAll) {
-      this.nodeKey = this.$refs[this.ref].nodeKey || 'id'
       this.treeData = [
         {
           [this.$refs[this.ref].props.label]: '全选',

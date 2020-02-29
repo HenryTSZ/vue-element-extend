@@ -11,6 +11,7 @@
     <el-tree
       :ref="ref"
       v-bind="$attrs"
+      :node-key="nodeKey"
       :show-checkbox="showCheckbox"
       v-on="$listeners"
       @check="handleCheck"
@@ -24,6 +25,10 @@
 export default {
   name: 'Tree',
   props: {
+    nodeKey: {
+      type: String,
+      default: 'id'
+    },
     showCheckAll: {
       type: Boolean,
       default: false

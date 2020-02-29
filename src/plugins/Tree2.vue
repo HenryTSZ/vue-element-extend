@@ -11,6 +11,7 @@
     <el-tree
       :ref="ref"
       v-bind="$attrs"
+      :node-key="nodeKey"
       :show-checkbox="showCheckbox"
       v-on="$listeners"
       @check-change="handleCheckChange"
@@ -24,6 +25,10 @@
 export default {
   name: 'Tree',
   props: {
+    nodeKey: {
+      type: String,
+      default: 'id'
+    },
     showCheckAll: {
       type: Boolean,
       default: false
@@ -41,8 +46,7 @@ export default {
     return {
       ref: 'elTree',
       isIndeterminate: false,
-      checkAll: false,
-      time: 0
+      checkAll: false
     }
   },
   watch: {
@@ -64,7 +68,6 @@ export default {
       this.$nextTick(() => {
         const elTreeStore = this.$refs[this.ref].store
         const allNodes = elTreeStore._getAllNodes().sort((a, b) => b.level - a.level)
-        console.log('TCL: expandToLevel -> allNodes', allNodes)
         if (level === 0) {
           // 展开全部
           allNodes.forEach(node => {
@@ -117,15 +120,27 @@ export default {
       if (!this.showCheckAll || !this.showCheckbox) {
         return
       }
-      // 节流
-      if (Date.now() - this.time > 100) {
-        this.time = Date.now()
-      } else {
-        return
+      // 防抖
+      this.debounce(
+        this.$nextTick(() => {
+          this.handleCheckAllStatus()
+        }),
+        100
+      )
+    },
+    // 防抖
+    debounce(func, wait) {
+      var timeout
+
+      return function() {
+        var context = this
+        var args = arguments
+
+        clearTimeout(timeout)
+        timeout = setTimeout(function() {
+          func.apply(context, args)
+        }, wait)
       }
-      this.$nextTick(() => {
-        this.handleCheckAllStatus()
-      })
     },
     handleCheckAllStatus() {
       const elTreeStore = this.$refs[this.ref].store
