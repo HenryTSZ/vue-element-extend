@@ -1,8 +1,56 @@
 <template>
   <div class="el-select-tree">
+    <pre><code>
+  将 el-select 和 el-tree 的全部功能整合到一起
+
+  Attributes:
+
+    v-model: [String, Number, Array]
+
+    selectProps: el-select 的 Attributes
+
+    treeProps: el-tree 的 Attributes
+
+    currentIsLeaf: 单选时是否只能选择叶子节点, 默认 false
+
+  具体实现请移步 <el-link
+      type="primary"
+      :underline="false"
+      href="https://tsz.now.sh/2019/11/29/based-on-element-ui-encapsulation-select-tree/"
+      target="_blank"
+      >基于 ElementUI 封装的 SelectTree | Henry</el-link
+    >
+
+  <el-link
+      type="primary"
+      :underline="false"
+      href="https://github.com/HenryTSZ/vue-element-extend/blob/master/src/plugins/SelectTree.vue"
+      target="_blank"
+      >源码</el-link>
+
+    </code></pre>
+
+    单选:
     <select-tree
       v-model="defaultCurrentKey"
       :select-props="selectProps"
+      :tree-props="treeProps"
+      @change="change"
+    ></select-tree>
+
+    单选(只选子节点):
+    <select-tree
+      v-model="defaultCurrentKey"
+      :select-props="selectProps"
+      :tree-props="treeProps"
+      current-is-leaf
+      @change="change"
+    ></select-tree>
+
+    多选:
+    <select-tree
+      v-model="defaultCurrentKeys"
+      :select-props="selectProps1"
       :tree-props="treeProps"
       @change="change"
     ></select-tree>
@@ -67,119 +115,31 @@ export default {
   props: {},
   data() {
     return {
-      level: 1,
       defaultCurrentKey: 9,
+      defaultCurrentKeys: [5, 9],
       selectProps: {
         // multiple: true,
         // 'collapse-tags': true,
         collapseTags: true,
         clearable: true
       },
+      selectProps1: {
+        multiple: true,
+        // 'collapse-tags': true,
+        collapseTags: true,
+        clearable: true
+      },
       treeProps: {
         data,
-        // expandOnClickNode: false,
         props: { children: 'childrenList', label: 'menuName' },
         nodeKey: 'menuId'
-      },
-      filterText: '',
-      props: {
-        label: 'name',
-        children: 'zones',
-        isLeaf: 'leaf'
       }
-    }
-  },
-  computed: {},
-  watch: {
-    filterText(val) {
-      console.log('TCL: filterText -> this.$refs.tree', this.$refs.tree)
-      this.$refs.tree.filter(val)
-      this.$nextTick(() => {})
     }
   },
   methods: {
-    init() {},
     change(data) {
       console.log('TCL: change -> data', data)
-    },
-    filterNode(value, data) {
-      if (!value) return true
-      return data.menuName.indexOf(value) !== -1
-    },
-    getCheckedNodes() {
-      console.log('TCL: getCheckedNodes -> this.$refs.tree', this.$refs.tree)
-      console.log('TCL: getCheckedNodes -> this.$refs.tree', this.$refs.tree.getCheckedNodes)
-      console.log(this.$refs.tree.getCheckedNodes())
-    },
-    getCheckedKeys() {
-      console.log(this.$refs.tree.getCheckedKeys())
-    },
-    setCheckedNodes() {
-      this.$refs.tree.setCheckedNodes([
-        {
-          id: 5,
-          label: '二级 2-1'
-        },
-        {
-          id: 9,
-          label: '三级 1-1-1'
-        }
-      ])
-    },
-    setCheckedKeys() {
-      this.$refs.tree.setCheckedKeys([3])
-    },
-    resetChecked() {
-      this.$refs.tree.setCheckedKeys([])
-    },
-    renderContent(h, { node, data, store }) {
-      return (
-        <span class="custom-tree-node">
-          <span>{node.label}</span>
-          <span>
-            <el-button size="mini" type="text" on-click={() => this.append(data)}>
-              Append
-            </el-button>
-            <el-button size="mini" type="text" on-click={() => this.remove(node, data)}>
-              Delete
-            </el-button>
-          </span>
-        </span>
-      )
-    },
-    loadNode(node, resolve) {
-      // console.log('TCL: loadNode -> node, resolve', node, resolve)
-      if (node.level === 0) {
-        return resolve([{ name: 'region' }, { name: 'aa' }])
-      }
-      if (node.level > 1) return resolve([])
-
-      setTimeout(() => {
-        const data = [
-          {
-            name: 'leaf',
-            leaf: true
-          },
-          {
-            name: 'zone'
-          }
-        ]
-
-        resolve(data)
-      }, 500)
-    },
-    checkChange(data, state, leaf) {
-      console.log('TCL: checkChange -> data, state, leaf', data, state, leaf)
-    },
-    check(data, checked) {
-      console.log('TCL: check -> data, checked', data, checked)
     }
-  },
-  created() {
-    this.init()
-  },
-  mounted() {}
+  }
 }
 </script>
-
-<style lang="less"></style>

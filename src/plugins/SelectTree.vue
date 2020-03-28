@@ -37,8 +37,7 @@ export default {
       type: Object,
       default() {
         return {}
-      },
-      required: true
+      }
     },
     treeProps: {
       type: Object,
@@ -76,7 +75,7 @@ export default {
       return this.selectProps.multiple
     },
     expandOnClickNode() {
-      return this.multiple ? true : this.currentIsLeaf ? true : false
+      return this.multiple ? true : this.currentIsLeaf
     }
   },
   watch: {
@@ -142,7 +141,6 @@ export default {
       if (this.multiple) return
       // 给 selectOptions 一个默认值, 防止出现无数据, 从而无法显示 tree
       this.selectOptions = [{}]
-      this.selectData = ''
       const currentNode = this.$refs.tree.getCurrentNode()
       // 初始值为空
       if (!currentNode) return
