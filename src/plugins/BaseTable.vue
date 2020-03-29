@@ -46,11 +46,11 @@ export default {
     },
     activeRow: {
       type: Number,
-      default: 1
+      default: 0
     },
     activeCol: {
       type: Number,
-      default: 1
+      default: 0
     }
   },
   data() {

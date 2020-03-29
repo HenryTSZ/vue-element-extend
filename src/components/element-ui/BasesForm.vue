@@ -61,23 +61,29 @@ export default {
       },
       ref: 'form',
       formItems: [
-        { label: '单行文本', prop: 'text', type: 'text', is: 'el-input' },
+        { label: '单行文本', prop: 'text', type: 'text', component: 'el-input' },
         {
           label: '前置',
           prop: 'prepend',
           type: 'text',
-          is: 'el-input',
+          component: 'el-input',
           slot: { prepend: 'http://' }
         },
-        { label: '后置', prop: 'append', type: 'text', is: 'el-input', slot: { append: '.com' } },
-        { label: '文本域', prop: 'textarea', type: 'textarea', is: 'el-input' },
-        { label: '整数', prop: 'integer', type: 'integer', is: 'number-input' },
-        { label: '小数', prop: 'decimal', type: 'decimal', is: 'number-input' },
+        {
+          label: '后置',
+          prop: 'append',
+          type: 'text',
+          component: 'el-input',
+          slot: { append: '.com' }
+        },
+        { label: '文本域', prop: 'textarea', type: 'textarea', component: 'el-input' },
+        { label: '整数', prop: 'integer', type: 'integer', component: 'number-input' },
+        { label: '小数', prop: 'decimal', type: 'decimal', component: 'number-input' },
         {
           label: '选择器',
           prop: 'select',
           type: 'select',
-          is: 'el-select',
+          component: 'el-select',
           select: [
             { label: '选项一', value: 'select1' },
             { label: '选项二', value: 'select2' },

@@ -2,7 +2,7 @@
   <div class="editible-elements">
     <slot name="prev"></slot>
     <component
-      :is="item.is"
+      :is="item.component"
       v-model="model[item.prop]"
       :key="item.prop"
       v-bind="item"
@@ -50,11 +50,22 @@ export default {
   },
   directives: {
     focus: {
-      inserted(el, binding) {
-        if (binding.value) {
-          el.children[0].focus()
-          console.log('inserted -> el', el)
-          console.log('inserted -> el', el.children)
+      // [vue v-focus v-show控制input的显示聚焦，第二次不生效问题_JavaScript_宣城-CSDN博客](https://blog.csdn.net/qq_37361812/article/details/93782340)
+      // [页面一刷新让文本框自动获取焦点-- 和自定义v-focus指令 - 明月人倚楼 - 博客园](https://www.cnblogs.com/IwishIcould/p/12006378.html)
+      update(el, { value }) {
+        if (value) {
+          // 重点注意这里 当前元素是 div  所以要查到子元素中的 input
+          const dom = el.querySelector('input') || el.querySelector('textarea')
+          console.log('update -> dom', dom)
+          dom.focus()
+        }
+      },
+      inserted(el, { value }) {
+        if (value) {
+          // 重点注意这里 当前元素是 div  所以要查到子元素中的 input
+          const dom = el.querySelector('input') || el.querySelector('textarea')
+          console.log('inserted -> dom', dom)
+          dom.focus()
         }
       }
     }

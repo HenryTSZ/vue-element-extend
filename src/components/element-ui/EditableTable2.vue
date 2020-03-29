@@ -39,7 +39,12 @@
       >源码</el-link>
 
     </code></pre>
-    <base-table :data="data" :columns="columns"></base-table>
+    <base-table
+      :data="data"
+      :columns="columns"
+      :active-row="activeRow"
+      :active-col="activeCol"
+    ></base-table>
   </div>
 </template>
 
@@ -95,22 +100,29 @@ export default {
         }
       ],
       columns: [
-        { label: '名字', prop: 'name', type: 'text', is: 'el-input' },
-        { label: '年龄', prop: 'age', type: 'integer', is: 'number-input', editable: true },
-        { label: '资产', prop: 'money', type: 'decimal', is: 'number-input' },
+        { label: '名字', prop: 'name', type: 'text', component: 'el-input' },
+        { label: '年龄', prop: 'age', type: 'integer', component: 'number-input', editable: true },
+        { label: '资产', prop: 'money', type: 'decimal', component: 'number-input' },
         {
           label: '住址',
           prop: 'address',
           type: 'select',
-          is: 'el-select',
+          component: 'el-select',
           editable: true,
           select: addressMap,
           formatter(row) {
             return findVal(addressMap, row.address)
           }
         }
-      ]
+      ],
+      activeRow: 1,
+      activeCol: 1
     }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.activeCol = 3
+    }, 2000)
   }
 }
 </script>
