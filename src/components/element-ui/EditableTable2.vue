@@ -23,6 +23,8 @@
 
       editable: 是否可编辑
 
+      focus: 聚焦
+
       其他字段: 参见 el-input 和 el-select
 
   Slots:

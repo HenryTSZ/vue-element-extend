@@ -21,6 +21,8 @@
 
       select: type 为 select 必填, 选择器数据
 
+      focus: 聚焦
+
       其他字段: 参见 el-input 和 el-select
 
   Slots:
@@ -61,7 +63,7 @@ export default {
       },
       ref: 'form',
       formItems: [
-        { label: '单行文本', prop: 'text', type: 'text', component: 'el-input' },
+        { label: '单行文本', prop: 'text', type: 'text', component: 'el-input', focus: true },
         {
           label: '前置',
           prop: 'prepend',
