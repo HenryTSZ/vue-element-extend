@@ -3,14 +3,14 @@
  * @File: 公共方法
  * @Date: 2019-07-12 13:43:21
  * @Last Modified by: lhajh
- * @Last Modified time: 2020-01-28 09:33:01
+ * @Last Modified time: 2020-03-29 17:15:34
  */
 
-const upperFirst = str => {
+export const upperFirst = str => {
   return str.substring(0, 1).toUpperCase() + str.substring(1)
 }
 
-const listToTree = (list, nodeKey = 'id', parentKey = 'parentId') => {
+export const listToTree = (list, nodeKey = 'id', parentKey = 'parentId') => {
   const tree = []
   const getParentNode = node =>
     node[parentKey] && list.filter(a => a[nodeKey] && a[nodeKey] === node[parentKey])[0]
@@ -31,7 +31,7 @@ const listToTree = (list, nodeKey = 'id', parentKey = 'parentId') => {
   return tree
 }
 
-const findTreeNodeById = (treeData, id, nodeKey = 'id', childrenKey = 'children') => {
+export const findTreeNodeById = (treeData, id, nodeKey = 'id', childrenKey = 'children') => {
   const node = treeData.find(item => item[nodeKey] === id)
   if (node) {
     return node
@@ -48,7 +48,7 @@ const findTreeNodeById = (treeData, id, nodeKey = 'id', childrenKey = 'children'
   }
 }
 
-const getTreeMaxLevel = (treeData, childrenKey = 'children') => {
+export const getTreeMaxLevel = (treeData, childrenKey = 'children') => {
   if (!treeData.length) {
     return 0
   } else {
@@ -61,7 +61,7 @@ const getTreeMaxLevel = (treeData, childrenKey = 'children') => {
   }
 }
 
-const formatTime = (date = null, time = true) => {
+export const formatTime = (date = null, time = true) => {
   let year = null
   let month = null
   let day = null
@@ -107,11 +107,11 @@ const formatTime = (date = null, time = true) => {
   }
 }
 
-const isObject = obj => {
+export const isObject = obj => {
   return typeof obj === 'object' && obj != null
 }
 
-const deepClone = source => {
+export const deepClone = source => {
   if (!isObject(source)) return source // 非对象返回自身
   let target = Array.isArray(source) ? [] : {}
   for (let key in source) {
@@ -126,7 +126,7 @@ const deepClone = source => {
   return target
 }
 
-const arrRemove = (arr, fun) => {
+export const arrRemove = (arr, fun) => {
   let removed = []
   const index = arr.findIndex(fun)
   if (index !== -1) {
@@ -140,14 +140,14 @@ const arrRemove = (arr, fun) => {
  * @param  {all} target [数据源]
  * @return {all}      [默认值]
  */
-const checkParameter = (target, defaultVal) => (target === undefined ? defaultVal : target)
+export const checkParameter = (target, defaultVal) => (target === undefined ? defaultVal : target)
 
 /**
  * 将英文字符串首字母大写
  * @param {str} String 需要转换的字符串
  * @return {srt} String 转换后的字符串
  */
-const firstUpperCase = ([first, ...rest]) => first.toUpperCase() + rest.join('')
+export const firstUpperCase = ([first, ...rest]) => first.toUpperCase() + rest.join('')
 
 /**
  * 验证 props
@@ -189,6 +189,50 @@ export const checkProps = {
   }
 }
 
+/**
+ * 从对象中找到 value
+ * @param {Object} data
+ * @param {String} key
+ * @param {String} value
+ * @param {String} label
+ */
+export const findVal = (data, key, value = 'value', label = 'label') => {
+  if (!isObject(data)) return // 非对象返回
+  let target
+  if (Array.isArray(data)) {
+    data.some(item => {
+      if (!isObject(item)) return
+      if (item[value] === key) {
+        target = item[label]
+        return true
+      } else {
+        return false
+      }
+    })
+  } else {
+    for (const iterator of data) {
+      if (data[iterator] === key) {
+        target = iterator
+      }
+    }
+  }
+  return target
+}
+
+/**
+ * 根据类型返回
+ * @param {String} type
+ */
+export const handlePlaceholder = type => {
+  if (['text', 'textarea', 'integer', 'decimal'].includes(type)) {
+    return '请输入'
+  } else if (type === 'select') {
+    return '请选择'
+  } else {
+    return ''
+  }
+}
+
 export default {
   upperFirst,
   findTreeNodeById,
@@ -200,5 +244,7 @@ export default {
   arrRemove,
   checkParameter,
   firstUpperCase,
-  checkProps
+  checkProps,
+  findVal,
+  handlePlaceholder
 }

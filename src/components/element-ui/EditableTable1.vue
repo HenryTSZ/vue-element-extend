@@ -1,5 +1,5 @@
 <template>
-  <div class="editable-table">
+  <div class="editable-table1">
     <pre><code>
   说明:
 
@@ -117,7 +117,7 @@
 
 <script>
 export default {
-  name: 'EditableTable',
+  name: 'EditableTable1',
   components: {},
   mixins: [],
   props: [],
@@ -201,22 +201,22 @@ export default {
             id: '1578137133402826',
             name: '名字',
             type: 1,
-            value: 'lhajh',
+            value: 'HenryTsz',
             describe: '^_^'
           },
           {
             id: '1578137133402827',
             name: '年龄',
-            type: 0,
-            value: 27,
-            describe: '有点老了qaq'
+            type: 1,
+            value: '保密',
+            describe: 'a secret makes a woman woman'
           },
           {
             id: '1578137133402828',
             name: '是否单身',
             type: 2,
             value: true,
-            describe: '有没有哪位小姐姐喜欢狗狗的啊? 会挣钱养家的辣种'
+            describe: '今天也是狗粮满满的一天呢'
           },
           {
             id: '1578137133402829',
@@ -355,9 +355,14 @@ export default {
 </script>
 
 <style lang="less">
-.editable-table {
+.editable-table1 {
   .button-group {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+  }
+  .clearfix:after {
+    content: '';
+    display: block;
+    clear: both;
   }
   .el-table {
     margin-bottom: 20px;

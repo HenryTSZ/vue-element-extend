@@ -44,7 +44,15 @@ export default {
         },
         {
           name: 'element-ui',
-          child: ['BaseTree', 'BaseSelectTree', 'TreeCheckboxs', 'EditableTable', 'Upload']
+          child: [
+            'BaseTree',
+            'BaseSelectTree',
+            'TreeCheckboxs',
+            'EditableTable1',
+            'EditableTable2',
+            'BasesForm',
+            'Upload'
+          ]
         },
         {
           name: 'vue-echarts',
