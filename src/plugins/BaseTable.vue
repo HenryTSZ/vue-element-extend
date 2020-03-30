@@ -9,10 +9,10 @@
         :header-align="column.headerAlign || 'center'"
         v-bind="column"
       >
-        <template slot-scope="scope">
+        <template slot-scope="{ row, $index }">
           <editable-elements
-            :model="scope.row"
-            :item="{ ...column, focus: index === activeRow && scope.$index === activeCol }"
+            :model="row"
+            :item="{ ...column, focus: index === focusCol && $index === focusRow }"
           ></editable-elements>
         </template>
       </el-table-column>
@@ -44,11 +44,11 @@ export default {
         return []
       }
     },
-    activeRow: {
+    focusRow: {
       type: Number,
       default: 0
     },
-    activeCol: {
+    focusCol: {
       type: Number,
       default: 0
     }

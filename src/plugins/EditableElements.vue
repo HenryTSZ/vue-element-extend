@@ -16,7 +16,7 @@
         :value="option.value"
         :label="option.label"
       ></el-option>
-      <slot v-for="(value, key) in item.slot" :name="key" :slot="key">{{ value }}</slot>
+      <slot v-for="(value, key) in item.slots" :name="key" :slot="key">{{ value }}</slot>
     </component>
     <slot></slot>
   </div>

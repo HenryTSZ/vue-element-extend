@@ -27,9 +27,13 @@
 
       focus: 聚焦
 
-      slot: 当前组件的 slot
+      slots: 当前组件的 slot
 
-      其他字段: 参见 ElementUI
+      其他字段: 参见 el-table
+
+    focusRow: 聚焦行 index
+
+    focusCol: 聚焦列 index
 
   Slots:
 
@@ -48,8 +52,8 @@
     <base-table
       :data="data"
       :columns="columns"
-      :active-row="activeRow"
-      :active-col="activeCol"
+      :focus-row="focusRow"
+      :focus-col="focusCol"
     ></base-table>
   </div>
 </template>
@@ -121,13 +125,13 @@ export default {
           }
         }
       ],
-      activeRow: 1,
-      activeCol: 1
+      focusRow: 1,
+      focusCol: 1
     }
   },
   mounted() {
     setTimeout(() => {
-      this.activeCol = 3
+      this.focusCol = 3
     }, 2000)
   }
 }

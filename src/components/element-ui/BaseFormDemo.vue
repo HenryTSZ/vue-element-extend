@@ -25,7 +25,7 @@
 
       focus: 聚焦
 
-      slot: 当前组件的 slot
+      slots: 当前组件的 slot
 
       其他字段: 参见 ElementUI
 
@@ -73,14 +73,14 @@ export default {
           prop: 'prepend',
           type: 'text',
           component: 'el-input',
-          slot: { prepend: 'http://' }
+          slots: { prepend: 'http://' }
         },
         {
           label: '后置',
           prop: 'append',
           type: 'text',
           component: 'el-input',
-          slot: { append: '.com' }
+          slots: { append: '.com' }
         },
         { label: '文本域', prop: 'textarea', type: 'textarea', component: 'el-input' },
         { label: '整数', prop: 'integer', type: 'integer', component: 'number-input' },
