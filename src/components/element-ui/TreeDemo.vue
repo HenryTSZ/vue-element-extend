@@ -1,5 +1,5 @@
 <template>
-  <div class="base-tree">
+  <div class="tree-demo">
     <pre><code>
   在保持 el-tree 全部功能的基础上增加了全选功能和展开到 level 级的功能
 
@@ -191,7 +191,7 @@ export default {
 </script>
 
 <style lang="less">
-.base-tree {
+.tree-demo {
   .buttons {
     margin-top: 20px;
   }

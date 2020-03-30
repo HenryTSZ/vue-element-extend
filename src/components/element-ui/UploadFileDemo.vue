@@ -1,5 +1,5 @@
 <template>
-  <div class="upload">
+  <div class="upload-file-demo">
     <el-row :gutter="20">
       <el-col :span="12">
         <h1>基础 - button</h1>
@@ -66,7 +66,7 @@
 <script>
 import UploadFile from 'plugins/UploadFile'
 export default {
-  name: 'Upload',
+  name: 'UploadFileDemo',
   components: {
     UploadFile
   },
@@ -99,7 +99,7 @@ export default {
 </script>
 
 <style lang="less">
-.upload {
+.upload-file-demo {
   h1 {
     font-size: 20px;
     margin-bottom: 20px;

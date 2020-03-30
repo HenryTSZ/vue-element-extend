@@ -1,5 +1,5 @@
 <template>
-  <div class="bases-form">
+  <div class="base-form-demo">
     <pre><code>
   简化 el-form 重复代码, 最少仅需要一行代码即可
 
@@ -21,9 +21,11 @@
 
       select: type 为 select 必填, 选择器数据
 
+      component: 组件名称
+
       focus: 聚焦
 
-      其他字段: 参见 el-input 和 el-select
+      其他字段: 参见 ElementUI
 
   Slots:
 

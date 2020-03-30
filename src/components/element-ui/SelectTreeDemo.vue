@@ -1,5 +1,5 @@
 <template>
-  <div class="el-select-tree">
+  <div class="select-tree-demo">
     <pre><code>
   将 el-select 和 el-tree 的全部功能整合到一起
 

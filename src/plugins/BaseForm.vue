@@ -4,8 +4,7 @@
     <el-form-item
       v-for="item in formItems"
       :key="item.prop"
-      :label="item.label"
-      :prop="item.prop"
+      v-bind="item"
       :rules="[
         {
           required: !item.noRequired,

@@ -45,13 +45,13 @@ export default {
         {
           name: 'element-ui',
           child: [
-            'BaseTree',
-            'BaseSelectTree',
-            'TreeCheckboxs',
-            'EditableTable1',
-            'EditableTable2',
-            'BasesForm',
-            'Upload'
+            'TreeDemo',
+            'SelectTreeDemo',
+            // 'TreeCheckboxs',
+            // 'EditableTable1',
+            'BaseTableDemo',
+            'BaseFormDemo',
+            'UploadFileDemo'
           ]
         },
         {

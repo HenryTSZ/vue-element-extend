@@ -13,19 +13,21 @@
 
       字段说明:
 
-      label: el-form label
+      label: el-table label
 
-      prop: el-form prop
+      prop: el-table prop
 
       type: 取值范围: ['text', 'textarea', 'integer', 'decimal', 'select']
 
       select: type 为 select 必填, 选择器数据
 
+      component: 组件名称
+
       editable: 是否可编辑
 
       focus: 聚焦
 
-      其他字段: 参见 el-input 和 el-select
+      其他字段: 参见 ElementUI
 
   Slots:
 
