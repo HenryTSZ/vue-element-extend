@@ -25,6 +25,8 @@
 
       focus: 聚焦
 
+      slot: 当前组件的 slot
+
       其他字段: 参见 ElementUI
 
   Slots:
