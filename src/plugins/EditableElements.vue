@@ -1,5 +1,5 @@
 <template>
-  <div class="editible-elements">
+  <div class="editable-elements">
     <slot name="prev"></slot>
     <component
       :is="item.component"
@@ -56,7 +56,6 @@ export default {
         if (value) {
           // 重点注意这里 当前元素是 div  所以要查到子元素中的 input
           const dom = el.querySelector('input') || el.querySelector('textarea')
-          console.log('update -> dom', dom)
           dom.focus()
         }
       },
@@ -64,7 +63,6 @@ export default {
         if (value) {
           // 重点注意这里 当前元素是 div  所以要查到子元素中的 input
           const dom = el.querySelector('input') || el.querySelector('textarea')
-          console.log('inserted -> dom', dom)
           dom.focus()
         }
       }
@@ -72,3 +70,11 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.editable-elements {
+  .el-select {
+    width: 100%;
+  }
+}
+</style>

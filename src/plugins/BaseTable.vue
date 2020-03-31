@@ -2,36 +2,22 @@
   <el-table ref="elTable" class="base-table" v-bind="$attrs" v-on="$listeners">
     <slot name="prev"></slot>
     <template v-for="(column, index) in columns">
-      <el-table-column
-        v-if="column.editable"
-        :key="column.prop"
-        :align="column.align || 'center'"
-        :header-align="column.headerAlign || 'center'"
-        v-bind="column"
-      >
+      <el-table-column v-if="column.editable" :key="column.prop" v-bind="column">
         <template slot-scope="{ row, $index }">
           <editable-elements
             :model="row"
             :item="{ ...column, focus: index === focusCol && $index === focusRow }"
+            v-on="$listeners"
           ></editable-elements>
         </template>
       </el-table-column>
-      <el-table-column
-        v-else
-        :key="column.prop"
-        :align="column.align || 'center'"
-        :header-align="column.headerAlign || 'center'"
-        v-bind="column"
-      >
-      </el-table-column>
+      <el-table-column v-else :key="column.prop" v-bind="column"> </el-table-column>
     </template>
     <slot></slot>
   </el-table>
 </template>
 
 <script>
-import { handlePlaceholder } from 'utils'
-
 export default {
   name: 'BaseTable',
   components: {
@@ -55,12 +41,6 @@ export default {
   },
   data() {
     return {}
-  },
-  methods: {
-    handlePlaceholder,
-    change(row, e) {
-      this.$emit('change', row, e)
-    }
   },
   mounted() {
     for (let key in this.$refs.elTable) {

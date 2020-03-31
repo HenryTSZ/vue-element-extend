@@ -13,7 +13,7 @@
         }
       ]"
     >
-      <editable-elements :model="model" :item="item"></editable-elements>
+      <editable-elements :model="model" :item="item" v-on="$listeners"></editable-elements>
     </el-form-item>
     <slot></slot>
   </el-form>
