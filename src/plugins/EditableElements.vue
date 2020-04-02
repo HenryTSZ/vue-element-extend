@@ -57,14 +57,14 @@ export default {
         if (value) {
           // 重点注意这里 当前元素是 div  所以要查到子元素中的 input
           const dom = el.querySelector('input') || el.querySelector('textarea')
-          dom.focus()
+          dom && dom.focus()
         }
       },
       inserted(el, { value }) {
         if (value) {
           // 重点注意这里 当前元素是 div  所以要查到子元素中的 input
           const dom = el.querySelector('input') || el.querySelector('textarea')
-          dom.focus()
+          dom && dom.focus()
         }
       }
     }
