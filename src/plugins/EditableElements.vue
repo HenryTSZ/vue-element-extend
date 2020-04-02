@@ -1,25 +1,23 @@
 <template>
-  <div class="editable-elements">
-    <slot name="prev"></slot>
-    <component
-      :is="item.component"
-      v-model="model[item.prop]"
-      :key="item.prop"
-      v-bind="item"
-      v-focus="item.focus"
-      :placeholder="item.placeholder || `${handlePlaceholder(item.type)}${item.label}`"
-      @change="change(model, $event)"
-    >
-      <el-option
-        v-for="option in item.select"
-        :key="option.value"
-        :value="option.value"
-        :label="option.label"
-      ></el-option>
-      <slot v-for="(value, key) in item.slots" :name="key" :slot="key">{{ value }}</slot>
-    </component>
-    <slot></slot>
-  </div>
+  <component
+    :is="item.component"
+    v-model="model[item.prop]"
+    :key="item.prop"
+    v-bind="item"
+    v-focus="item.focus"
+    :placeholder="item.placeholder || `${handlePlaceholder(item.type)}${item.label}`"
+    @change="change(model, $event)"
+  >
+    <el-option
+      v-for="option in item.select"
+      :key="option.value"
+      :value="option.value"
+      :label="option.label"
+    ></el-option>
+    <el-radio v-for="radio in item.radio" :key="radio" :label="radio"></el-radio>
+    <el-checkbox v-for="checkbox in item.checkbox" :key="checkbox" :label="checkbox"></el-checkbox>
+    <slot v-for="(value, key) in item.slots" :name="key" :slot="key">{{ value }}</slot>
+  </component>
 </template>
 
 <script>
@@ -27,7 +25,10 @@ import { handlePlaceholder } from 'utils'
 
 export default {
   name: 'EditableElements',
-  components: { NumberInput: resolve => require(['plugins/NumberInput'], resolve) },
+  components: {
+    NumberInput: resolve => require(['plugins/NumberInput'], resolve),
+    SelectTree: resolve => require(['plugins/SelectTree'], resolve)
+  },
   props: {
     item: {
       type: Object,

@@ -49,6 +49,7 @@ export default {
             'SelectTreeDemo',
             // 'TreeCheckboxs',
             // 'EditableTable1',
+            'EditableElementsDemo',
             'BaseTableDemo',
             'BaseFormDemo',
             'UploadFileDemo'

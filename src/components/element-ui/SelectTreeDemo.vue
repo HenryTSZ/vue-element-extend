@@ -22,11 +22,16 @@
     >
 
   <el-link
-      type="primary"
-      :underline="false"
-      href="https://github.com/HenryTSZ/vue-element-extend/blob/master/src/plugins/SelectTree.vue"
-      target="_blank"
-      >源码</el-link>
+    type="primary"
+    :underline="false"
+    href="https://github.com/HenryTSZ/vue-element-extend/blob/master/src/plugins/SelectTree.vue"
+    target="_blank"
+    >源码</el-link>       <el-link
+    type="primary"
+    :underline="false"
+    href="https://github.com/HenryTSZ/vue-element-extend/blob/master/src/components/element-ui/SelectTreeDemo.vue"
+    target="_blank"
+  >Demo 示例</el-link>
 
     </code></pre>
 

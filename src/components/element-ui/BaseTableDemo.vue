@@ -3,7 +3,9 @@
     <pre><code>
   简化 el-table 重复代码, 最少仅需要一行代码即可
 
-  支持 单行文本, 文本域, 整数, 小数, 选择器; 并且支持这些组件的 Attributes 和 Slots
+  支持 单行文本、文本域、Switch 开关、选择器等 ElementUI form 大部分组件和本项目自定义组件: 整数、小数、SelectTree;
+
+  并且支持这些组件的 Attributes 和 Slots
 
   Attributes:
 
@@ -17,17 +19,13 @@
 
       prop: el-table prop
 
-      type: 取值范围: ['text', 'textarea', 'integer', 'decimal', 'select']
-
-      select: type 为 select 必填, 选择器数据
-
-      component: 组件名称
-
       editable: 是否可编辑
 
-      focus: 聚焦
-
-      slots: 当前组件的 slot
+      其余参见 <el-link
+      type="primary"
+      :underline="false"
+      href="#/element-ui/EditableElementsDemo"
+      >EditableElementsDemo</el-link>
 
       其他字段: 参见 el-table
 
@@ -46,7 +44,12 @@
       :underline="false"
       href="https://github.com/HenryTSZ/vue-element-extend/blob/master/src/plugins/BaseForm.vue"
       target="_blank"
-      >源码</el-link>
+      >源码</el-link>       <el-link
+    type="primary"
+    :underline="false"
+    href="https://github.com/HenryTSZ/vue-element-extend/blob/master/src/components/element-ui/BaseTableDemo.vue"
+    target="_blank"
+  >Demo 示例</el-link>
 
     </code></pre>
     <base-table

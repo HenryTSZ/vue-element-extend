@@ -28,7 +28,12 @@
       :underline="false"
       href="https://github.com/HenryTSZ/vue-element-extend/blob/master/src/plugins"
       target="_blank"
-      >源码</el-link> 页面的 Tree1.vue, Tree2.vue, Tree3.vue
+      >源码</el-link> 页面的 Tree1.vue, Tree2.vue, Tree3.vue       <el-link
+      type="primary"
+      :underline="false"
+      href="https://github.com/HenryTSZ/vue-element-extend/blob/master/src/components/element-ui/TreeDemo.vue"
+      target="_blank"
+    >Demo 示例</el-link>
 
     </code></pre>
     <el-radio-group v-model="treeName">
