@@ -47,6 +47,7 @@ export default {
           child: [
             'TreeDemo',
             'SelectTreeDemo',
+            'LevelTableDemo',
             // 'TreeCheckboxs',
             // 'EditableTable1',
             'EditableElementsDemo',
