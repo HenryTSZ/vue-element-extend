@@ -6,8 +6,9 @@
     v-bind="item"
     v-focus="item.focus"
     :placeholder="item.placeholder || `${handlePlaceholder(item.type)}${item.label}`"
-    @change="change(model, $event)"
+    v-on="{ ...$listeners, ...item.events }"
   >
+    {{ item.type === 'info' ? model[item.prop] : '' }}
     <el-option
       v-for="option in item.select"
       :key="option.value"
@@ -44,10 +45,7 @@ export default {
     }
   },
   methods: {
-    handlePlaceholder,
-    change(row, e) {
-      this.$emit('change', row, e)
-    }
+    handlePlaceholder
   },
   directives: {
     focus: {
@@ -68,6 +66,9 @@ export default {
         }
       }
     }
+  },
+  mounted() {
+    console.log(this.$listeners, 'listeners')
   }
 }
 </script>

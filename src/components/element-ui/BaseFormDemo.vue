@@ -66,7 +66,8 @@ export default {
         textarea: '',
         integer: '',
         decimal: '',
-        select: ''
+        select: '',
+        info: '只展示, 不可编辑'
       },
       ref: 'form',
       formItems: [
@@ -99,7 +100,8 @@ export default {
             { label: '选项三', value: 'select3' },
             { label: '选项四', value: 'select4' }
           ]
-        }
+        },
+        { label: '不可编辑', prop: 'info', type: 'info', component: 'span', noRequired: true }
       ]
     }
   },

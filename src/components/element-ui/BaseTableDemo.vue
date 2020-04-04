@@ -21,6 +21,8 @@
 
       editable: 是否可编辑
 
+      component: editable 为 true 时, 必填
+
       其余参见 <el-link
       type="primary"
       :underline="false"
@@ -57,6 +59,8 @@
       :columns="columns"
       :focus-row="focusRow"
       :focus-col="focusCol"
+      @change="change"
+      @row-change="rowChange"
     ></base-table>
   </div>
 </template>
@@ -114,7 +118,14 @@ export default {
       ],
       columns: [
         { label: '名字', prop: 'name', type: 'text', component: 'el-input' },
-        { label: '年龄', prop: 'age', type: 'integer', component: 'number-input', editable: true },
+        {
+          label: '年龄',
+          prop: 'age',
+          type: 'integer',
+          component: 'number-input',
+          editable: true,
+          events: { input: this.input }
+        },
         { label: '资产', prop: 'money', type: 'decimal', component: 'number-input' },
         {
           label: '住址',
@@ -130,6 +141,17 @@ export default {
       ],
       focusRow: 1,
       focusCol: 1
+    }
+  },
+  methods: {
+    input(e) {
+      console.log('input -> e', e)
+    },
+    change(e) {
+      console.log('change -> e', e)
+    },
+    rowChange(row, e, prop) {
+      console.log('rowChange -> row, e, prop', row, e, prop)
     }
   },
   mounted() {

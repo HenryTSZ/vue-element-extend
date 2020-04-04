@@ -7,7 +7,7 @@
           <editable-elements
             :model="row"
             :item="{ ...column, focus: index === focusCol && $index === focusRow }"
-            v-on="$listeners"
+            @change="change(row, $event, column)"
           ></editable-elements>
         </template>
       </el-table-column>
@@ -41,6 +41,11 @@ export default {
   },
   data() {
     return {}
+  },
+  methods: {
+    change(row, e, column) {
+      this.$emit('row-change', row, e, column.prop)
+    }
   },
   mounted() {
     for (let key in this.$refs.elTable) {

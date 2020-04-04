@@ -17,7 +17,7 @@
 
       prop: 必填, v-model 绑定值
 
-      type: 取值范围: ['text', 'textarea', 'integer', 'decimal', 'select', 'radio', 'checkbox']
+      type: 取值范围: ['text', 'textarea', 'integer', 'decimal', 'select', 'radio', 'checkbox', 'info']
 
       select: type 为 select 必填, 选择器数据
 
@@ -27,9 +27,13 @@
 
       component: 组件名称, ElementUI 组件名称和本项目自定义组件名称. 如: 'el-input'
 
+      type 为 info 时, 只做展示使用, 只支持文字; component 为不可编辑的组件, 如: div, p, span 等
+
       focus: 聚焦
 
       slots: 当前组件的 slot, 仅支持简单的文字
+
+      events: 事件. 如: { change: this.change }, this.change 为 methods 中的事件
 
       其他字段: 参见 ElementUI 对应组件字段
 
@@ -67,7 +71,8 @@ export default {
         name: 'tsz',
         age: 18,
         gender: 'man',
-        skills: 'js'
+        skills: 'js',
+        info: '只展示, 不可编辑'
       },
       components: [
         {
@@ -100,6 +105,11 @@ export default {
             { label: 'html', value: 'html' },
             { label: 'vue', value: 'vue' }
           ]
+        },
+        {
+          prop: 'info',
+          type: 'info',
+          component: 'p'
         }
       ]
     }

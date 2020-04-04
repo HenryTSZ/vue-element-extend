@@ -47,7 +47,7 @@ export default {
           child: [
             'TreeDemo',
             'SelectTreeDemo',
-            'LevelTableDemo',
+            'TreeTableDemo',
             // 'TreeCheckboxs',
             // 'EditableTable1',
             'EditableElementsDemo',
@@ -80,18 +80,19 @@ export default {
     name() {
       const rootPath = this.$route.params.rootPath
       const path = this.$route.params.path
+      let activePath = 'readme/Readme'
       if (rootPath || path) {
-        const activePath = `${rootPath}/${path}`
-        return import(/* webpackChunkName: "[request]" */ `components/${activePath}`)
-          .then(res => {
-            this.activeIndex = `/${activePath}`
-            return res.default
-          })
-          .catch(err => {
-            console.log('TCL: name -> err', err)
-            this.$router.push('/404')
-          })
+        activePath = `${rootPath}/${path}`
       }
+      return import(/* webpackChunkName: "[request]" */ `components/${activePath}`)
+        .then(res => {
+          this.activeIndex = `/${activePath}`
+          return res.default
+        })
+        .catch(err => {
+          console.log('TCL: name -> err', err)
+          this.$router.push('/404')
+        })
     }
   }
 }
