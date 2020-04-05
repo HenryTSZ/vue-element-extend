@@ -1,5 +1,16 @@
 <template>
-  <el-table class="tree-table" :ref="ref" v-bind="$attrs"><slot></slot></el-table>
+  <el-table
+    class="tree-table"
+    :ref="ref"
+    :data="data"
+    v-bind="$attrs"
+    @select="select"
+    @select-all="selectAll"
+    @selection-change="selectionChange"
+    v-on="$listeners"
+  >
+    <slot></slot>
+  </el-table>
 </template>
 
 <script>
@@ -7,16 +18,32 @@ export default {
   name: 'TreeTable',
   components: {},
   props: {
+    data: {
+      type: Array,
+      default() {
+        return []
+      }
+    },
     level: {
       type: Number,
       default: 1
+    },
+    checkStrictly: {
+      type: Boolean,
+      default: false
+    },
+    checkAll: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
     return {
       ref: 'elTable',
       maxLevel: 0,
-      treeData: {}
+      treeData: {},
+      children: '',
+      timeout: null
     }
   },
   computed: {
@@ -26,12 +53,12 @@ export default {
   },
   watch: {
     level: {
-      handler: 'init',
+      handler: 'expandToLevel',
       immediate: true
     }
   },
   methods: {
-    init() {
+    expandToLevel() {
       this.$nextTick(() => {
         if (!this.$refs[this.ref]) return
         if (!this.maxLevel) {
@@ -58,6 +85,62 @@ export default {
           Object.values(this.treeData).map(({ level }) => level)
         ) + 2
       this.$emit('max-level', this.maxLevel)
+
+      this.children = this.$refs[this.ref].treeProps.children
+    },
+
+    select(selection, row) {
+      if (this.checkStrictly) {
+        this.$emit('select', selection, row)
+        return
+      }
+      const selected = selection.some(item => item === row)
+      this.selectChildren(row, selected)
+    },
+    selectAll(selection) {
+      if (!this.checkAll) {
+        this.$emit('select-all', selection)
+        return
+      }
+      // tableData 第一层只要有在 selection 里面就是全选
+      const isSelect = this.data.some(item => selection.includes(item))
+      if (isSelect) {
+        selection.forEach(item => {
+          this.selectChildren(item, isSelect)
+        })
+      } else {
+        this.data.forEach(item => {
+          this.selectChildren(item, isSelect)
+        })
+      }
+    },
+    selectChildren(row, selected) {
+      if (row[this.children] && Array.isArray(row[this.children])) {
+        row[this.children].forEach(item => {
+          this.toggleSelection(item, selected)
+          this.selectChildren(item, selected)
+        })
+      }
+    },
+    selectionChange(selection) {
+      this.debounce(this.emitSelectionChange, 100, selection)
+    },
+    emitSelectionChange(selection) {
+      this.$emit('selection-change', selection)
+    },
+    toggleSelection(row, select) {
+      row &&
+        this.$nextTick(() => {
+          this.$refs[this.ref] && this.$refs[this.ref].toggleRowSelection(row, select)
+        })
+    },
+    cancelAll() {
+      this.$refs[this.ref] && this.$refs[this.ref].clearSelection()
+    },
+    // 防抖
+    debounce(fun, wait, params) {
+      clearTimeout(this.timeout)
+      this.timeout = setTimeout(fun, wait, params)
     }
   },
   mounted() {

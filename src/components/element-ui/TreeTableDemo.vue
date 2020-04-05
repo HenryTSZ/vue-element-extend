@@ -3,7 +3,11 @@
     <pre><code>
   在保持 el-table 全部功能的基础上增加了全选可以选中子级和展开到 level 级的功能
 
-  1. 全选功能 prop: show-check-all(需配合 show-checkbox), Boolean
+  1. 全选功能 prop:
+
+    check-strictly: Boolean, 同 el-tree, 在显示复选框的情况下，是否严格的遵循父子不互相关联的做法，默认为 false
+
+    check-all: Boolean, 点击表头的多选框时, 是否影响全部数据, 默认为 true
 
   2. 展开到 level 级 prop: level, Number: 0: 展开全部, 1: 展开到一级, ...
 
@@ -30,14 +34,21 @@
     >Demo 示例</el-link>
 
     </code></pre>
-    <el-input-number v-model="level" :min="0" :max="maxLevel"></el-input-number>
+    展开到 <el-input-number v-model="level" :min="0" :max="maxLevel"></el-input-number> 级
+    check-strictly:
+    <el-switch v-model="checkStrictly" active-color="#13ce66" inactive-color="#ff4949"> </el-switch>
+    check-all:
+    <el-switch v-model="checkAll" active-color="#13ce66" inactive-color="#ff4949"> </el-switch>
     <tree-table
       :data="tableData"
       row-key="id"
       default-expand-all
       :level="level"
+      :check-strictly="checkStrictly"
+      :check-all="checkAll"
       @max-level="level => (maxLevel = level)"
     >
+      <el-table-column type="selection"></el-table-column>
       <el-table-column prop="date" label="日期" sortable width="180"> </el-table-column>
       <el-table-column prop="name" label="姓名" sortable width="180"> </el-table-column>
       <el-table-column prop="address" label="地址"> </el-table-column>
@@ -136,7 +147,9 @@ export default {
         }
       ],
       level: 1,
-      maxLevel: 1
+      maxLevel: 1,
+      checkStrictly: true,
+      checkAll: true
     }
   },
   computed: {},

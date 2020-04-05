@@ -46,7 +46,8 @@ export default {
     return {
       ref: 'elTree',
       isIndeterminate: false,
-      checkAll: false
+      checkAll: false,
+      timeout: null
     }
   },
   watch: {
@@ -121,26 +122,12 @@ export default {
         return
       }
       // 防抖
-      this.debounce(
-        this.$nextTick(() => {
-          this.handleCheckAllStatus()
-        }),
-        100
-      )
+      this.debounce(this.handleCheckAllStatus, 100)
     },
     // 防抖
     debounce(func, wait) {
-      var timeout
-
-      return function() {
-        var context = this
-        var args = arguments
-
-        clearTimeout(timeout)
-        timeout = setTimeout(function() {
-          func.apply(context, args)
-        }, wait)
-      }
+      clearTimeout(this.timeout)
+      this.timeout = setTimeout(func, wait)
     },
     handleCheckAllStatus() {
       const elTreeStore = this.$refs[this.ref].store
