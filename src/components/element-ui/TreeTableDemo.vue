@@ -47,6 +47,9 @@
       :check-strictly="checkStrictly"
       :check-all="checkAll"
       @max-level="level => (maxLevel = level)"
+      @select="select"
+      @select-all="selectAll"
+      @selection-change="selectionChange"
     >
       <el-table-column type="selection"></el-table-column>
       <el-table-column prop="date" label="日期" sortable width="180"> </el-table-column>
@@ -61,7 +64,6 @@ import TreeTable from 'plugins/TreeTable'
 export default {
   name: 'TreeTableDemo',
   components: { TreeTable },
-  props: {},
   data() {
     return {
       tableData: [
@@ -152,14 +154,16 @@ export default {
       checkAll: true
     }
   },
-  computed: {},
-  watch: {},
   methods: {
-    init() {}
-  },
-  created() {
-    this.init()
-  },
-  mounted() {}
+    select(selection, row) {
+      console.log('select -> selection, row', selection, row)
+    },
+    selectAll(selection) {
+      console.log('selectAll -> selection', selection)
+    },
+    selectionChange(selection) {
+      console.log('selectionChange -> selection', selection)
+    }
+  }
 }
 </script>

@@ -4,10 +4,7 @@
     :ref="ref"
     :data="data"
     v-bind="$attrs"
-    @select="select"
-    @select-all="selectAll"
-    @selection-change="selectionChange"
-    v-on="$listeners"
+    v-on="{ ...$listeners, select, 'select-all': selectAll, 'selection-change': selectionChange }"
   >
     <slot></slot>
   </el-table>
@@ -90,29 +87,29 @@ export default {
     },
 
     select(selection, row) {
-      if (this.checkStrictly) {
-        this.$emit('select', selection, row)
-        return
+      if (!this.checkStrictly) {
+        const selected = selection.some(item => item === row)
+        this.selectChildren(row, selected)
       }
-      const selected = selection.some(item => item === row)
-      this.selectChildren(row, selected)
+      this.$emit('select', selection, row)
     },
     selectAll(selection) {
-      if (!this.checkAll) {
+      if (this.checkAll) {
+        // tableData 第一层只要有在 selection 里面就是全选
+        const isSelect = this.data.some(item => selection.includes(item))
+        if (isSelect) {
+          selection.forEach(item => {
+            this.selectChildren(item, isSelect)
+          })
+        } else {
+          this.data.forEach(item => {
+            this.selectChildren(item, isSelect)
+          })
+        }
+      }
+      this.$nextTick(() => {
         this.$emit('select-all', selection)
-        return
-      }
-      // tableData 第一层只要有在 selection 里面就是全选
-      const isSelect = this.data.some(item => selection.includes(item))
-      if (isSelect) {
-        selection.forEach(item => {
-          this.selectChildren(item, isSelect)
-        })
-      } else {
-        this.data.forEach(item => {
-          this.selectChildren(item, isSelect)
-        })
-      }
+      })
     },
     selectChildren(row, selected) {
       if (row[this.children] && Array.isArray(row[this.children])) {
