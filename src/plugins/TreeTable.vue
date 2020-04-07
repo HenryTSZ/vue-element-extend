@@ -6,6 +6,18 @@
     v-bind="$attrs"
     v-on="{ ...$listeners, select, 'select-all': selectAll, 'selection-change': selectionChange }"
   >
+    <slot name="prev"></slot>
+    <template v-for="(column, index) in columns">
+      <el-table-column v-if="column.editable" :key="column.prop" v-bind="column">
+        <editable-elements
+          slot-scope="{ row, $index }"
+          :model="row"
+          :item="{ ...column, focus: index === focusCol && $index === focusRow }"
+          @change="change(row, $event, column)"
+        ></editable-elements>
+      </el-table-column>
+      <el-table-column v-else :key="column.prop" v-bind="column"> </el-table-column>
+    </template>
     <slot></slot>
   </el-table>
 </template>
@@ -13,13 +25,29 @@
 <script>
 export default {
   name: 'TreeTable',
-  components: {},
+  components: {
+    EditableElements: resolve => require(['plugins/EditableElements'], resolve)
+  },
   props: {
     data: {
       type: Array,
       default() {
         return []
       }
+    },
+    columns: {
+      type: Array,
+      default() {
+        return []
+      }
+    },
+    focusRow: {
+      type: Number,
+      default: 0
+    },
+    focusCol: {
+      type: Number,
+      default: 0
     },
     level: {
       type: Number,
@@ -41,11 +69,6 @@ export default {
       treeData: {},
       children: '',
       timeout: null
-    }
-  },
-  computed: {
-    bind() {
-      return {}
     }
   },
   watch: {
@@ -138,6 +161,9 @@ export default {
     debounce(fun, wait, params) {
       clearTimeout(this.timeout)
       this.timeout = setTimeout(fun, wait, params)
+    },
+    change(row, e, column) {
+      this.$emit('row-change', row, e, column.prop)
     }
   },
   mounted() {
@@ -149,3 +175,14 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.tree-table {
+  /deep/ .el-table__body-wrapper {
+    .cell {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+</style>

@@ -3,13 +3,12 @@
     <slot name="prev"></slot>
     <template v-for="(column, index) in columns">
       <el-table-column v-if="column.editable" :key="column.prop" v-bind="column">
-        <template slot-scope="{ row, $index }">
-          <editable-elements
-            :model="row"
-            :item="{ ...column, focus: index === focusCol && $index === focusRow }"
-            @change="change(row, $event, column)"
-          ></editable-elements>
-        </template>
+        <editable-elements
+          slot-scope="{ row, $index }"
+          :model="row"
+          :item="{ ...column, focus: index === focusCol && $index === focusRow }"
+          @change="change(row, $event, column)"
+        ></editable-elements>
       </el-table-column>
       <el-table-column v-else :key="column.prop" v-bind="column"> </el-table-column>
     </template>

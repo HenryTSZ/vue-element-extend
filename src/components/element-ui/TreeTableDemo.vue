@@ -11,9 +11,15 @@
 
   2. 展开到 level 级 prop: level, Number: 0: 展开全部, 1: 展开到一级, ...
 
-  3. 其余所有 props / Event / 方法 均与 el-table 一样
+  3. 其余参见 <el-link
+      type="primary"
+      :underline="false"
+      href="#/element-ui/BaseTableDemo"
+      >BaseTableDemo</el-link>
 
-  4. 具体实现请移步 <el-link
+  4. 其余所有 props / Event / 方法 均与 el-table 一样
+
+  5. 具体实现请移步 <el-link
       type="primary"
       :underline="false"
       href="https://tsz.now.sh/2020/04/04/based-on-element-ui-encapsulation-tree-table/"
@@ -21,7 +27,7 @@
       >基于 ElementUI 封装的 TreeTable | Henry</el-link
     >
 
-  5. <el-link
+  6. <el-link
       type="primary"
       :underline="false"
       href="https://github.com/HenryTSZ/vue-element-extend/blob/master/src/plugins/TreeTable.vue"
@@ -41,6 +47,7 @@
     <el-switch v-model="checkAll" active-color="#13ce66" inactive-color="#ff4949"> </el-switch>
     <tree-table
       :data="tableData"
+      :columns="columns"
       row-key="id"
       default-expand-all
       :level="level"
@@ -50,11 +57,9 @@
       @select="select"
       @select-all="selectAll"
       @selection-change="selectionChange"
+      @row-change="rowChange"
     >
-      <el-table-column type="selection"></el-table-column>
-      <el-table-column prop="date" label="日期" sortable width="180"> </el-table-column>
-      <el-table-column prop="name" label="姓名" sortable width="180"> </el-table-column>
-      <el-table-column prop="address" label="地址"> </el-table-column>
+      <el-table-column type="selection" slot="prev"></el-table-column>
     </tree-table>
   </div>
 </template>
@@ -148,6 +153,11 @@ export default {
           ]
         }
       ],
+      columns: [
+        { label: '日期', prop: 'date' },
+        { label: '姓名', prop: 'name', editable: true, component: 'el-input' },
+        { label: '地址', prop: 'address' }
+      ],
       level: 1,
       maxLevel: 1,
       checkStrictly: true,
@@ -163,6 +173,9 @@ export default {
     },
     selectionChange(selection) {
       console.log('selectionChange -> selection', selection)
+    },
+    rowChange(row, e, prop) {
+      console.log('rowChange -> row, e, prop', row, e, prop)
     }
   }
 }
