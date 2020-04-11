@@ -1,7 +1,7 @@
 <template>
   <div class="editable-elements-demo">
     <pre><code>
-  封装 ElementUI 可 "编辑" 的组件和本项目自定义组件
+  封装 ElementUI 支持 v-model 的组件和本项目自定义组件
 
   支持 单行文本、文本域、Switch 开关、选择器等 ElementUI form 大部分组件和本项目自定义组件: 整数、小数、SelectTree;
 

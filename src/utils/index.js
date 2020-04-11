@@ -3,7 +3,7 @@
  * @File: 公共方法
  * @Date: 2019-07-12 13:43:21
  * @Last Modified by: lhajh
- * @Last Modified time: 2020-03-29 17:15:34
+ * @Last Modified time: 2020-04-11 15:46:34
  */
 
 export const upperFirst = str => {
@@ -226,7 +226,7 @@ export const findVal = (data, key, value = 'value', label = 'label') => {
 export const handlePlaceholder = type => {
   if (['text', 'textarea', 'integer', 'decimal'].includes(type)) {
     return '请输入'
-  } else if (type === 'select') {
+  } else if (['select', 'radio', 'checkbox', 'date', 'cascader', 'switch', 'time'].includes(type)) {
     return '请选择'
   } else {
     return ''

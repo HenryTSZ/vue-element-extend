@@ -38,6 +38,12 @@ export default {
       default() {
         return []
       }
+    },
+    rules: {
+      type: Object,
+      default() {
+        return {}
+      }
     }
   },
   methods: {
