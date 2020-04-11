@@ -8,6 +8,8 @@
           :model="row"
           :item="{ ...column, focus: index === focusCol && $index === focusRow }"
           @change="change(row, $event, column)"
+          @blur="blur(row, $event, column)"
+          @visible-change="visibleChange(row, $event, column)"
         ></editable-elements>
       </el-table-column>
       <el-table-column v-else :key="column.prop" v-bind="column"> </el-table-column>
@@ -44,6 +46,12 @@ export default {
   methods: {
     change(row, e, column) {
       this.$emit('row-change', row, e, column.prop)
+    },
+    blur(row, e, column) {
+      this.$emit('row-blur', row, e, column.prop)
+    },
+    visibleChange(row, e, column) {
+      this.$emit('row-visible-change', row, e, column)
     }
   },
   mounted() {

@@ -21,7 +21,11 @@
 
       select: type 为 select 必填, 选择器数据
 
+      selectProps: 配置 label 和 value 字段, 默认为: { label: 'label', value: 'value' }
+
       radio: type 为 radio 必填, 单选框数据
+
+      radioProps: 配置 label 和 value 字段, 默认为: { label: 'label', value: 'value' }
 
       checkbox: type 为 checkbox 必填, 多选框数据
 

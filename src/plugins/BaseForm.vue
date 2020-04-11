@@ -10,7 +10,8 @@
           required: !item.noRequired,
           message: item.ruleMessage || `${handlePlaceholder(item.type)}${item.label}`,
           trigger: item.type === 'select' ? 'change' : 'blur'
-        }
+        },
+        ...(rules[item.prop] || [])
       ]"
     >
       <editable-elements :model="model" :item="item" v-on="$listeners"></editable-elements>

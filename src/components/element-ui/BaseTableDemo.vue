@@ -41,6 +41,14 @@
 
     -: 后置 slot
 
+  Events:
+
+    row-change: 当前行的可编辑列值发生变化. 参数: row: 当前行, value: 列的 value, key: 列的 key
+
+    blur-change: 当前行的可编辑列失焦. 参数: row: 当前行, e: event, key: 列的 key
+
+    visible-change: 列的下拉框出现/隐藏时触发, 解决 el-select 多选的时候, 选中一个值就触发 change 事件. 参数: row: 当前行, visible: 出现则为 true，隐藏则为 false, key: 列的 key
+
   <el-link
       type="primary"
       :underline="false"

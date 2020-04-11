@@ -11,11 +11,17 @@
     {{ item.type === 'info' ? model[item.prop] : '' }}
     <el-option
       v-for="option in item.select"
-      :key="option.value"
-      :value="option.value"
-      :label="option.label"
+      :key="option[item.selectProps ? item.selectProps.value : 'value']"
+      :value="option[item.selectProps ? item.selectProps.value : 'value']"
+      :label="option[item.selectProps ? item.selectProps.label : 'label']"
     ></el-option>
-    <el-radio v-for="radio in item.radio" :key="radio" :label="radio"></el-radio>
+    <el-radio
+      v-for="radio in item.radio"
+      :key="radio[item.radioProps ? item.radioProps.value : 'value']"
+      :label="radio[item.radioProps ? item.radioProps.value : 'value']"
+    >
+      {{ radio[item.radioProps ? item.radioProps.label : 'label'] }}
+    </el-radio>
     <el-checkbox v-for="checkbox in item.checkbox" :key="checkbox" :label="checkbox"></el-checkbox>
     <slot v-for="(value, key) in item.slots" :name="key" :slot="key">{{ value }}</slot>
   </component>
