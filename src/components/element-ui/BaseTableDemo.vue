@@ -19,6 +19,8 @@
 
       prop: el-table prop
 
+      keyProps: 映射 label 和 prop, 默认为 { label: 'label', prop: 'prop' }
+
       editable: 是否可编辑
 
       component: editable 为 true 时, 必填
@@ -52,7 +54,7 @@
   <el-link
       type="primary"
       :underline="false"
-      href="https://github.com/HenryTSZ/vue-element-extend/blob/master/src/plugins/BaseForm.vue"
+      href="https://github.com/HenryTSZ/vue-element-extend/blob/master/src/plugins/BaseTable.vue"
       target="_blank"
       >源码</el-link>       <el-link
     type="primary"

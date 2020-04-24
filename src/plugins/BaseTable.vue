@@ -1,7 +1,7 @@
 <template>
   <el-table ref="elTable" class="base-table" v-bind="$attrs" v-on="$listeners">
     <slot name="prev"></slot>
-    <template v-for="(column, index) in columns">
+    <template v-for="(column, index) in cols">
       <el-table-column v-if="column.editable" :key="column.prop" v-bind="column">
         <editable-elements
           slot-scope="{ row, $index }"
@@ -25,6 +25,12 @@ export default {
     EditableElements: resolve => require(['plugins/EditableElements'], resolve)
   },
   props: {
+    keyProps: {
+      type: Object,
+      default() {
+        return null
+      }
+    },
     columns: {
       type: Array,
       default() {
@@ -42,6 +48,17 @@ export default {
   },
   data() {
     return {}
+  },
+  computed: {
+    cols() {
+      return this.keyProps
+        ? this.columns.map(column => ({
+            ...column,
+            prop: column[this.keyProps.prop || 'prop'],
+            label: column[this.keyProps.label || 'label']
+          }))
+        : this.columns
+    }
   },
   methods: {
     change(row, e, column) {

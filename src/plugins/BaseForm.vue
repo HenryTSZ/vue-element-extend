@@ -27,6 +27,12 @@ export default {
   name: 'BaseForm',
   components: { EditableElements: resolve => require(['plugins/EditableElements'], resolve) },
   props: {
+    keyProps: {
+      type: Object,
+      default() {
+        return null
+      }
+    },
     model: {
       type: Object,
       default() {
@@ -44,6 +50,17 @@ export default {
       default() {
         return {}
       }
+    }
+  },
+  computed: {
+    items() {
+      return this.keyProps
+        ? this.formItems.map(item => ({
+            ...item,
+            prop: item[this.keyProps.prop || 'prop'],
+            label: item[this.keyProps.label || 'label']
+          }))
+        : this.formItems
     }
   },
   methods: {

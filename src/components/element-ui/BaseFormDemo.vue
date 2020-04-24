@@ -19,6 +19,8 @@
 
       prop: el-form prop
 
+      keyProps: 映射 label 和 prop, 默认为 { label: 'label', prop: 'prop' }
+
       其余参见 <el-link
       type="primary"
       :underline="false"
