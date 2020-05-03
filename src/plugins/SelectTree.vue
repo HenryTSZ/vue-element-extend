@@ -14,20 +14,22 @@
         :value="item.value"
         :label="item.label"
       ></el-option>
-      <el-tree
+      <tree
         :key="treeKey"
         ref="tree"
         v-bind="treeBind"
         @current-change="handleCurrentChange"
         @check-change="handleCheckChange"
-      ></el-tree>
+      ></tree>
     </el-select>
   </div>
 </template>
 
 <script>
+import Tree from 'plugins/Tree2'
 export default {
   name: 'SelectTree',
+  components: { Tree },
   props: {
     value: {
       type: [String, Number, Array],
@@ -81,8 +83,7 @@ export default {
   watch: {
     value() {
       // 为了检测 v-model 的变化
-      // 多选的时候, value 和 selectData 是同一个引用, 所以 v-model 不变的话这个判断就进不去
-      if (this.value !== this.selectData) {
+      if (this.value + '' !== this.selectData + '') {
         this.treeKey = Math.random()
         this.init()
       }
@@ -100,7 +101,8 @@ export default {
     },
     // select 下拉框出现/隐藏
     handleVisibleChange(val) {
-      if (!val) {
+      // 下拉框隐藏并且值改变后
+      if (!val && this.value + '' !== this.selectData + '') {
         this.$emit('input', this.selectData)
         this.$emit('change', this.selectData)
       }

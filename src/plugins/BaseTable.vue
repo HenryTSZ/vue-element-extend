@@ -1,3 +1,10 @@
+<!--
+ * @Author: HenryTSZ
+ * @Date: 2020-04-07 09:50:24
+ * @Description:
+ * @LastEditors: HenryTSZ
+ * @LastEditTime: 2020-05-03 17:45:37
+ -->
 <template>
   <el-table ref="elTable" class="base-table" v-bind="$attrs" v-on="$listeners">
     <slot name="prev"></slot>
@@ -45,9 +52,6 @@ export default {
       type: Number,
       default: 0
     }
-  },
-  data() {
-    return {}
   },
   computed: {
     cols() {

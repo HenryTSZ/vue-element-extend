@@ -2,7 +2,7 @@
   <el-form v-bind="$attrs" :model="model" ref="elForm" class="base-form">
     <slot name="prev"></slot>
     <el-form-item
-      v-for="item in formItems"
+      v-for="item in items"
       :key="item.prop"
       v-bind="item"
       :rules="[

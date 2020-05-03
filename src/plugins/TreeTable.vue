@@ -7,7 +7,7 @@
     v-on="{ ...$listeners, select, 'select-all': selectAll, 'selection-change': selectionChange }"
   >
     <slot name="prev"></slot>
-    <template v-for="(column, index) in columns">
+    <template v-for="(column, index) in cos">
       <el-table-column v-if="column.editable" :key="column.prop" v-bind="column">
         <editable-elements
           slot-scope="{ row, $index }"
@@ -29,6 +29,12 @@ export default {
     EditableElements: resolve => require(['plugins/EditableElements'], resolve)
   },
   props: {
+    keyProps: {
+      type: Object,
+      default() {
+        return null
+      }
+    },
     data: {
       type: Array,
       default() {
@@ -71,42 +77,59 @@ export default {
       timeout: null
     }
   },
+  computed: {
+    cols() {
+      return this.keyProps
+        ? this.columns.map(column => ({
+            ...column,
+            prop: column[this.keyProps.prop || 'prop'],
+            label: column[this.keyProps.label || 'label']
+          }))
+        : this.columns
+    }
+  },
   watch: {
     level: {
       handler: 'expandToLevel',
       immediate: true
+    },
+    data: {
+      handler: 'handleData',
+      deep: true
     }
   },
   methods: {
-    expandToLevel() {
-      this.$nextTick(() => {
-        if (!this.$refs[this.ref]) return
-        if (!this.maxLevel) {
-          this.handleData()
+    async expandToLevel() {
+      if (!this.$refs[this.ref]) return
+      if (!this.maxLevel) {
+        await this.handleData()
+      }
+      let level = 0
+      if (this.level <= 0) {
+        level = this.maxLevel - 2
+      } else {
+        level = this.level - 2
+      }
+      for (const key in this.treeData) {
+        if (this.treeData.hasOwnProperty(key)) {
+          this.treeData[key].expanded = this.treeData[key].level <= level
         }
-        let level = 0
-        if (this.level <= 0) {
-          level = this.maxLevel - 2
-        } else {
-          level = this.level - 2
-        }
-        for (const key in this.treeData) {
-          if (this.treeData.hasOwnProperty(key)) {
-            this.treeData[key].expanded = this.treeData[key].level <= level
-          }
-        }
-      })
+      }
     },
     handleData() {
-      this.treeData = this.$refs[this.ref].store.states.treeData
-      this.maxLevel =
-        Math.max.apply(
-          null,
-          Object.values(this.treeData).map(({ level }) => level)
-        ) + 2
-      this.$emit('max-level', this.maxLevel)
+      this.$nextTick(() => {
+        this.treeData = this.$refs[this.ref].store.states.treeData
+        const levels = Object.values(this.treeData).map(({ level }) => level)
+        if (levels.length) {
+          this.maxLevel = Math.max.apply(null, levels) + 2
+        } else {
+          this.maxLevel = 0
+        }
+        this.$emit('max-level', this.maxLevel)
 
-      this.children = this.$refs[this.ref].treeProps.children
+        this.children = this.$refs[this.ref].treeProps.children
+        return Promise.resolve()
+      })
     },
 
     select(selection, row) {
