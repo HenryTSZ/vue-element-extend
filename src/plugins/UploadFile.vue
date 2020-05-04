@@ -9,9 +9,9 @@
     :on-error="onError"
     :on-progress="onProgress"
   >
-    <slot name="trigger"></slot>
+    <slot name="trigger" slot="trigger"></slot>
     <slot><el-button type="primary" size="small">点击上传</el-button></slot>
-    <slot name="tip"></slot>
+    <slot name="tip" slot="tip"></slot>
     <el-dialog
       class="upload-dialog"
       title="上传列表"
@@ -59,6 +59,7 @@
 <script>
 export default {
   name: 'UploadFile',
+  inheritAttrs: false,
   props: {
     showFileList: {
       type: Boolean,
@@ -102,12 +103,10 @@ export default {
     },
     // 上传进度条
     onProgress(event, file, fileList) {
-      this.$emit('on-progress', event, file, fileList)
       this.files = fileList
     },
     // 上传失败
-    onError(err, file, fileList) {
-      this.$emit('on-error', err, file, fileList)
+    onError() {
       this.$message.warning('上传失败，请重新上传')
     },
     // 取消上传
