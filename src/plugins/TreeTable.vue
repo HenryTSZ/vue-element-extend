@@ -7,7 +7,7 @@
     v-on="{ ...$listeners, select, 'select-all': selectAll, 'selection-change': selectionChange }"
   >
     <slot name="prev"></slot>
-    <template v-for="(column, index) in cos">
+    <template v-for="(column, index) in cols">
       <el-table-column v-if="column.editable" :key="column.prop" v-bind="column">
         <editable-elements
           slot-scope="{ row, $index }"
@@ -95,7 +95,8 @@ export default {
     },
     data: {
       handler: 'handleData',
-      deep: true
+      deep: true,
+      immediate: true
     }
   },
   methods: {

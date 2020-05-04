@@ -71,7 +71,35 @@ export default {
   components: { TreeTable },
   data() {
     return {
-      tableData: [
+      tableData: [],
+      columns: [
+        { label: '日期', prop: 'date' },
+        { label: '姓名', prop: 'name', editable: true, component: 'el-input' },
+        { label: '地址', prop: 'address' }
+      ],
+      level: 1,
+      maxLevel: 1,
+      checkStrictly: true,
+      checkAll: true
+    }
+  },
+  methods: {
+    select(selection, row) {
+      console.log('select -> selection, row', selection, row)
+    },
+    selectAll(selection) {
+      console.log('selectAll -> selection', selection)
+    },
+    selectionChange(selection) {
+      console.log('selectionChange -> selection', selection)
+    },
+    rowChange(row, e, prop) {
+      console.log('rowChange -> row, e, prop', row, e, prop)
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.tableData = [
         {
           id: 1,
           date: '2016-05-02',
@@ -152,31 +180,8 @@ export default {
             }
           ]
         }
-      ],
-      columns: [
-        { label: '日期', prop: 'date' },
-        { label: '姓名', prop: 'name', editable: true, component: 'el-input' },
-        { label: '地址', prop: 'address' }
-      ],
-      level: 1,
-      maxLevel: 1,
-      checkStrictly: true,
-      checkAll: true
-    }
-  },
-  methods: {
-    select(selection, row) {
-      console.log('select -> selection, row', selection, row)
-    },
-    selectAll(selection) {
-      console.log('selectAll -> selection', selection)
-    },
-    selectionChange(selection) {
-      console.log('selectionChange -> selection', selection)
-    },
-    rowChange(row, e, prop) {
-      console.log('rowChange -> row, e, prop', row, e, prop)
-    }
+      ]
+    }, 1000)
   }
 }
 </script>

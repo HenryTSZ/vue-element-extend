@@ -75,7 +75,6 @@ export default {
       files: []
     }
   },
-  computed: {},
   watch: {
     files: {
       handler: function() {
