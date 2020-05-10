@@ -29,7 +29,17 @@
 
       checkbox: type 为 checkbox 必填, 多选框数据
 
-      component: 组件名称, ElementUI 组件名称和本项目自定义组件名称. 如: 'el-input'
+      component: 组件名称, ElementUI 组件名称和本项目自定义组件名称. 如: 'el-input', 'number-input'
+
+      component 为本项目自定义组件时的字段请参考这里: <el-link
+        type="primary"
+        :underline="false"
+        href="#/element-ui/NumberInputDemo"
+      >NumberInputDemo</el-link>       <el-link
+        type="primary"
+        :underline="false"
+        href="#/element-ui/SelectTreeDemo"
+      >SelectTreeDemo</el-link>
 
       type 为 info 时, 只做展示使用, 只支持文字; component 为不可编辑的组件, 如: div, p, span 等
 
@@ -96,7 +106,10 @@ export default {
           prop: 'gender',
           type: 'radio',
           component: 'el-radio-group',
-          radio: ['man', 'woman']
+          radio: [
+            { label: '男', value: 'man' },
+            { label: '女', value: 'woman' }
+          ]
         },
         {
           label: '技能',

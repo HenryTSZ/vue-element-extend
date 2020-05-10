@@ -1,3 +1,10 @@
+<!--
+ * @Author: HenryTSZ
+ * @Date: 2019-12-26 09:44:27
+ * @Description:
+ * @LastEditors: HenryTSZ
+ * @LastEditTime: 2020-05-10 17:48:44
+ -->
 <template>
   <el-input v-model="model" v-bind="$attrs" @input="_input" v-on="listeners">
     <slot v-for="(value, key) in $slots" :name="key" :slot="key"></slot>
@@ -15,6 +22,11 @@ export default {
       type: String,
       default: 'decimal'
     },
+    signed: {
+      // plus 正数, minus: 负数, all: 全部
+      type: String,
+      default: 'plus'
+    },
     places: {
       //保留小数位数
       type: [Number, String],
@@ -27,68 +39,52 @@ export default {
   },
   data() {
     return {
-      model: this.value
-    }
-  },
-  watch: {
-    value() {
-      this.model = this.value
-    }
-  },
-  methods: {
-    _input(val) {
-      const numReg = /^[0-9]$/
-      let v
-      if (this.type === 'integer') {
-        // 验证 整数
-        v = val.replace(/./g, function(e) {
-          if (numReg.test(parseInt(e))) {
-            return e
-          } else {
-            return ''
-          }
-        })
-        this.$nextTick(() => {
-          this.model = v
-          this.$emit('input', v)
-        })
-        return
-      }
-      if (this.type === 'decimal') {
-        // 验证 只留小数点和数字
-        v = val.replace(/./g, function(e) {
-          if (e === '.' || numReg.test(parseInt(e))) {
-            return e
-          } else {
-            return ''
-          }
-        })
-      }
-      //小数位数
-      if (v.indexOf('.') > -1) {
-        let l, r
-        // 阻止输入两个小数点
-        if (v.split('.').length > 2) {
-          v = v.slice(0, v.length - 1)
-        }
-        // 截取小数点
-        l = v.split('.')[0]
-        r = v.split('.')[1] || ''
-        if (r.length > +this.places) {
-          r = r.slice(0, +this.places)
-        }
-        v = l + '.' + r
-      }
-      this.$nextTick(() => {
-        this.model = v
-        this.$emit('input', v)
-      })
+      model: this.value,
+      temporary: this.value
     }
   },
   computed: {
     listeners() {
-      return Object.assign({}, this.$listeners, { [this.Event]: this._input })
+      return { ...this.$listeners, [this.Event]: this._input }
+    },
+    regs() {
+      return {
+        'integer-plus': /^\d+$/,
+        'integer-minus': /^-\d*$/,
+        'integer-all': /^-?\d*$/,
+        'decimal-plus': new RegExp(`^\\d+(\\.\\d{0,${this.places}})?$`),
+        'decimal-minus': new RegExp(`^-(\\d*|\\d+(\\.\\d{0,${this.places}})?)$`),
+        'decimal-all': new RegExp(`^-?(\\d*|\\d+(\\.\\d{0,${this.places}})?)$`)
+      }
+    },
+    regName() {
+      return `${this.type}-${this.signed}`
+    },
+    reg() {
+      return this.regs[this.regName]
     }
+  },
+  watch: {
+    value(n) {
+      this.model = n
+    },
+    temporary(n, o) {
+      if (n.length && !this.reg.test(n)) {
+        n = o
+        this.temporary = o
+        return
+      }
+      this.model = n
+      this.$emit('input', n)
+    }
+  },
+  methods: {
+    _input(val) {
+      this.temporary = val
+    }
+  },
+  created() {
+    if (!this.reg.test(this.value)) this.temporary = ''
   }
 }
 </script>
