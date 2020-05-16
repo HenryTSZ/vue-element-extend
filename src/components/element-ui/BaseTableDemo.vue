@@ -51,6 +51,14 @@
 
     visible-change: 列的下拉框出现/隐藏时触发, 解决 el-select 多选的时候, 选中一个值就触发 change 事件. 参数: row: 当前行, visible: 出现则为 true，隐藏则为 false, key: 列的 key
 
+  具体实现请移步 <el-link
+      type="primary"
+      :underline="false"
+      href="https://tsz.now.sh/2020/05/16/based-on-element-ui-encapsulation-table-form/"
+      target="_blank"
+      >基于 ElementUI 封装的基础 table 和 form | Henry</el-link
+    >
+
   <el-link
       type="primary"
       :underline="false"

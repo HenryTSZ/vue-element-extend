@@ -51,6 +51,14 @@
 
       其他字段: 参见 ElementUI 对应组件字段
 
+  具体实现请移步 <el-link
+      type="primary"
+      :underline="false"
+      href="https://tsz.now.sh/2020/05/16/based-on-element-ui-encapsulation-table-form/"
+      target="_blank"
+      >基于 ElementUI 封装的基础 table 和 form | Henry</el-link
+    >
+
   <el-link
     type="primary"
     :underline="false"

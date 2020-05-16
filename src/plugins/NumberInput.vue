@@ -3,7 +3,7 @@
  * @Date: 2019-12-26 09:44:27
  * @Description:
  * @LastEditors: HenryTSZ
- * @LastEditTime: 2020-05-10 17:48:44
+ * @LastEditTime: 2020-05-12 14:25:41
  -->
 <template>
   <el-input v-model="model" v-bind="$attrs" @input="_input" v-on="listeners">
@@ -16,7 +16,10 @@ export default {
   inheritAttrs: false,
   name: 'NumberInput',
   props: {
-    value: [Number, String],
+    value: {
+      type: [Number, String],
+      default: ''
+    },
     type: {
       // integer 整数, decimal 小数
       type: String,
