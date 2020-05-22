@@ -1,7 +1,14 @@
+<!--
+ * @Author: HenryTSZ
+ * @Date: 2020-01-31 11:15:30
+ * @Description: https://vue-element-extend.now.sh/#/element-ui/TreeDemo
+ * @LastEditors: HenryTSZ
+ * @LastEditTime: 2020-05-21 14:43:04
+ -->
 <template>
   <div class="b-tree">
     <el-checkbox
-      v-if="showCheckAll && showCheckbox"
+      v-if="showCheckAll && showCheckbox && data.length"
       class="b-tree-check-all"
       :indeterminate="isIndeterminate"
       v-model="checkAll"
@@ -10,6 +17,8 @@
     >
     <el-tree
       :ref="ref"
+      :key="key"
+      :data="data"
       v-bind="$attrs"
       :node-key="nodeKey"
       :show-checkbox="showCheckbox"
@@ -25,6 +34,12 @@
 export default {
   name: 'Tree',
   props: {
+    data: {
+      type: Array,
+      default() {
+        return []
+      }
+    },
     nodeKey: {
       type: String,
       default: 'id'
@@ -45,12 +60,17 @@ export default {
   data() {
     return {
       ref: 'elTree',
+      key: '',
       isIndeterminate: false,
       checkAll: false,
       timeout: null
     }
   },
   watch: {
+    data() {
+      this.key = Math.random()
+      this.handleCheckChange()
+    },
     level: {
       handler: 'expandToLevel',
       immediate: true
@@ -118,7 +138,7 @@ export default {
       this.$refs[this.ref].setCheckedKeys(checkedKeys)
     },
     handleCheckChange() {
-      if (!this.showCheckAll || !this.showCheckbox) {
+      if (!this.showCheckAll || !this.showCheckbox || !this.data.length) {
         return
       }
       // 防抖

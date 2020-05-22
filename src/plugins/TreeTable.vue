@@ -59,6 +59,10 @@ export default {
       type: Number,
       default: 1
     },
+    refreshLevel: {
+      type: [String, Number],
+      default: ''
+    },
     checkStrictly: {
       type: Boolean,
       default: false
@@ -92,6 +96,9 @@ export default {
     level: {
       handler: 'expandToLevel',
       immediate: true
+    },
+    refreshLevel: {
+      handler: 'expandToLevel'
     },
     data: {
       handler: 'handleData',

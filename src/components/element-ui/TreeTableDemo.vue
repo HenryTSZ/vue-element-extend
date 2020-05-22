@@ -9,7 +9,11 @@
 
     check-all: Boolean, 点击表头的多选框时, 是否影响全部数据, 默认为 true
 
-  2. 展开到 level 级 prop: level, Number: 0: 展开全部, 1: 展开到一级, ...
+  2. 展开到 level 级 prop:
+
+    level, Number: 0: 展开全部, 1: 展开到一级, ...
+
+    refreshLevel, [String, Number]: 重新渲染展开折叠, 有时候在 level 不变的情况下需要重新渲染展开折叠
 
   3. 其余参见 <el-link
       type="primary"
