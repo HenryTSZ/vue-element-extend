@@ -3,21 +3,32 @@
  * @Date: 2020-04-07 09:50:24
  * @Description:
  * @LastEditors: HenryTSZ
- * @LastEditTime: 2020-05-16 11:53:07
+ * @LastEditTime: 2020-05-30 17:20:57
  -->
 <template>
   <el-table ref="elTable" class="base-table" v-bind="$attrs" v-on="$listeners">
     <slot name="prev"></slot>
     <template v-for="(column, index) in cols">
-      <el-table-column v-if="column.editable" :key="column.prop" v-bind="column">
-        <editable-elements
-          slot-scope="{ row, $index }"
-          :model="row"
-          :item="{ ...column, focus: index === focusCol && $index === focusRow }"
-          @change="change(row, $event, column)"
-          @blur="blur(row, $event, column)"
-          @visible-change="visibleChange(row, $event, column)"
-        ></editable-elements>
+      <el-table-column
+        v-if="column.editable || column.editableFun"
+        :key="column.prop"
+        v-bind="column"
+      >
+        <template slot-scope="{ row, $index }">
+          <editable-elements
+            v-if="
+              column.editableFun ? column.editableFun(row, column, row[column.prop], $index) : true
+            "
+            :model="row"
+            :item="{ ...column, focus: index === focusCol && $index === focusRow }"
+            @change="change(row, $event, column)"
+          ></editable-elements>
+          <span v-else class="uneditable">{{
+            column.formatter
+              ? column.formatter(row, column, row[column.prop], $index)
+              : row[column.prop]
+          }}</span>
+        </template>
       </el-table-column>
       <el-table-column v-else :key="column.prop" v-bind="column"> </el-table-column>
     </template>

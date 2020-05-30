@@ -3,7 +3,7 @@
  * @Date: 2020-05-07 13:30:49
  * @Description:
  * @LastEditors: HenryTSZ
- * @LastEditTime: 2020-05-16 11:54:23
+ * @LastEditTime: 2020-05-30 17:36:57
 -->
 <template>
   <component
@@ -64,8 +64,8 @@ export default {
     focus: {
       // [vue v-focus v-show控制input的显示聚焦，第二次不生效问题_JavaScript_宣城-CSDN博客](https://blog.csdn.net/qq_37361812/article/details/93782340)
       // [页面一刷新让文本框自动获取焦点-- 和自定义v-focus指令 - 明月人倚楼 - 博客园](https://www.cnblogs.com/IwishIcould/p/12006378.html)
-      update(el, { value }) {
-        if (value) {
+      update(el, { value, oldValue }) {
+        if (value && value !== oldValue) {
           // 重点注意这里 当前元素是 div  所以要查到子元素中的 input
           const dom = el.querySelector('input') || el.querySelector('textarea')
           dom && dom.focus()

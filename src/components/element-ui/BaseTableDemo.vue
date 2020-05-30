@@ -21,9 +21,13 @@
 
       keyProps: 映射 label 和 prop, 默认为 { label: 'label', prop: 'prop' }
 
-      editable: 是否可编辑
+      editable: 是否可编辑整列
 
-      component: editable 为 true 时, 必填
+      editableFun: 自定义某行某列是否可编辑. Function(row, column, cellValue, index), 返回值为 Boolean
+
+          具体可参见如下例子: 年龄大于 17 才可选择地址
+
+      component: editable 为 true 或有 editableFun 函数 时, 必填
 
       其余参见 <el-link
       type="primary"
@@ -150,6 +154,9 @@ export default {
           prop: 'address',
           type: 'select',
           component: 'el-select',
+          editableFun(row) {
+            return row.age > 17
+          },
           editable: true,
           select: addressMap,
           formatter(row) {
