@@ -3,7 +3,7 @@
  * @Date: 2020-04-07 09:50:24
  * @Description:
  * @LastEditors: HenryTSZ
- * @LastEditTime: 2020-05-30 17:20:57
+ * @LastEditTime: 2020-06-01 18:27:42
  -->
 <template>
   <el-table ref="elTable" class="base-table" v-bind="$attrs" v-on="$listeners">
@@ -16,9 +16,7 @@
       >
         <template slot-scope="{ row, $index }">
           <editable-elements
-            v-if="
-              column.editableFun ? column.editableFun(row, column, row[column.prop], $index) : true
-            "
+            v-if="!column.editableFun || column.editableFun(row, column, row[column.prop], $index)"
             :model="row"
             :item="{ ...column, focus: index === focusCol && $index === focusRow }"
             @change="change(row, $event, column)"
