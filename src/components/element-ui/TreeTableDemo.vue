@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     select(selection, row) {
-      console.log('select -> selection, row', selection, row)
+      console.log('select -> selection, row', selection, row.id)
     },
     selectAll(selection) {
       console.log('selectAll -> selection', selection)
@@ -107,43 +107,43 @@ export default {
         {
           id: 1,
           date: '2016-05-02',
-          name: '王小虎',
+          name: '王小虎-1',
           address: '上海市普陀区金沙江路 1518 弄'
         },
         {
           id: 2,
           date: '2016-05-04',
-          name: '王小虎',
+          name: '王小虎-2',
           address: '上海市普陀区金沙江路 1517 弄'
         },
         {
           id: 3,
           date: '2016-05-01',
-          name: '王小虎',
+          name: '王小虎-3',
           address: '上海市普陀区金沙江路 1519 弄',
           children: [
             {
               id: 31,
               date: '2016-05-01',
-              name: '王小虎',
+              name: '王小虎-31',
               address: '上海市普陀区金沙江路 1519 弄',
               children: [
                 {
                   id: 311,
                   date: '2016-05-01',
-                  name: '王小虎',
+                  name: '王小虎-311',
                   address: '上海市普陀区金沙江路 1519 弄',
                   children: [
                     {
                       id: 3111,
                       date: '2016-05-01',
-                      name: '王小虎',
+                      name: '王小虎-3111',
                       address: '上海市普陀区金沙江路 1519 弄'
                     },
                     {
                       id: 3112,
                       date: '2016-05-01',
-                      name: '王小虎',
+                      name: '王小虎-3112',
                       address: '上海市普陀区金沙江路 1519 弄'
                     }
                   ]
@@ -151,15 +151,29 @@ export default {
                 {
                   id: 312,
                   date: '2016-05-01',
-                  name: '王小虎',
-                  address: '上海市普陀区金沙江路 1519 弄'
+                  name: '王小虎-312',
+                  address: '上海市普陀区金沙江路 1519 弄',
+                  children: [
+                    {
+                      id: 3121,
+                      date: '2016-05-01',
+                      name: '王小虎-3121',
+                      address: '上海市普陀区金沙江路 1519 弄'
+                    },
+                    {
+                      id: 3122,
+                      date: '2016-05-01',
+                      name: '王小虎-3122',
+                      address: '上海市普陀区金沙江路 1519 弄'
+                    }
+                  ]
                 }
               ]
             },
             {
               id: 32,
               date: '2016-05-01',
-              name: '王小虎',
+              name: '王小虎-32',
               address: '上海市普陀区金沙江路 1519 弄'
             }
           ]
@@ -167,19 +181,19 @@ export default {
         {
           id: 4,
           date: '2016-05-03',
-          name: '王小虎',
+          name: '王小虎-4',
           address: '上海市普陀区金沙江路 1516 弄',
           children: [
             {
               id: 41,
               date: '2016-05-01',
-              name: '王小虎',
+              name: '王小虎-41',
               address: '上海市普陀区金沙江路 1519 弄'
             },
             {
               id: 42,
               date: '2016-05-01',
-              name: '王小虎',
+              name: '王小虎-42',
               address: '上海市普陀区金沙江路 1519 弄'
             }
           ]

@@ -8,13 +8,24 @@
   >
     <slot name="prev"></slot>
     <template v-for="(column, index) in cols">
-      <el-table-column v-if="column.editable" :key="column.prop" v-bind="column">
-        <editable-elements
-          slot-scope="{ row, $index }"
-          :model="row"
-          :item="{ ...column, focus: index === focusCol && $index === focusRow }"
-          @change="change(row, $event, column)"
-        ></editable-elements>
+      <el-table-column
+        v-if="column.editable || column.editableFun"
+        :key="column.prop"
+        v-bind="column"
+      >
+        <template slot-scope="{ row, $index }">
+          <editable-elements
+            v-if="!column.editableFun || column.editableFun(row, column, row[column.prop], $index)"
+            :model="row"
+            :item="{ ...column, focus: index === focusCol && $index === focusRow }"
+            @change="change(row, $event, column)"
+          ></editable-elements>
+          <span v-else class="uneditable">{{
+            column.formatter
+              ? column.formatter(row, column, row[column.prop], $index)
+              : row[column.prop]
+          }}</span>
+        </template>
       </el-table-column>
       <el-table-column v-else :key="column.prop" v-bind="column"> </el-table-column>
     </template>
@@ -123,6 +134,9 @@ export default {
           this.treeData[key].expanded = this.treeData[key].level <= level
         }
       }
+      this.$nextTick(() => {
+        this.$refs[this.ref].doLayout()
+      })
     },
     handleData() {
       this.$nextTick(() => {
@@ -142,8 +156,10 @@ export default {
 
     select(selection, row) {
       if (!this.checkStrictly) {
-        const selected = selection.some(item => item === row)
-        this.selectChildren(row, selected)
+        const selected = selection.includes(row)
+        this.$emit('select', selection, row)
+        this.selectChildren(row, selected, selection)
+        return
       }
       this.$emit('select', selection, row)
     },
@@ -165,12 +181,32 @@ export default {
         this.$emit('select-all', selection)
       })
     },
-    selectChildren(row, selected) {
+    /**
+     * @description: 设置子元素是否选中
+     * @param {row: Object} 父元素
+     * @param {selected: Boolean} 是否选中
+     * @param {selection: Array} 是否 emit selection
+     */
+    selectChildren(row, selected, selection) {
       if (row[this.children] && Array.isArray(row[this.children])) {
         row[this.children].forEach(item => {
           this.toggleSelection(item, selected)
-          this.selectChildren(item, selected)
+          if (selection) {
+            if (selected && !selection.includes(item)) {
+              selection = selection.concat(item)
+              this.$emit('select', selection, item)
+            }
+            if (!selected && selection.includes(item)) {
+              selection = selection.filter(ele => ele !== item)
+              this.$emit('select', selection, item)
+            }
+            const result = this.selectChildren(item, selected, selection)
+            if (result) selection = result
+          } else {
+            this.selectChildren(item, selected, selection)
+          }
         })
+        if (selection) return selection
       }
     },
     selectionChange(selection) {
