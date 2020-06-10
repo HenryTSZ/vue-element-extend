@@ -3,7 +3,7 @@
  * @Date: 2019-12-26 09:44:27
  * @Description:
  * @LastEditors: HenryTSZ
- * @LastEditTime: 2020-05-21 17:31:10
+ * @LastEditTime: 2020-06-10 13:55:55
  -->
 <template>
   <el-input v-model="model" v-bind="$attrs" @input="_input" v-on="listeners">
@@ -69,11 +69,11 @@ export default {
   },
   watch: {
     value(n) {
-      this.model = n
       this.temporary = n
     },
     temporary(n, o) {
-      if (n.length && !this.reg.test(n)) {
+      n = n + ''
+      if (n && !this.reg.test(n)) {
         n = o
         this.temporary = o
         return
@@ -88,8 +88,8 @@ export default {
     }
   },
   created() {
-    if (!this.reg.test(this.value)) {
-      this.model = ''
+    const val = this.value + ''
+    if (val && !this.reg.test(val)) {
       this.temporary = ''
     }
   }
