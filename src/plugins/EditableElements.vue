@@ -3,7 +3,7 @@
  * @Date: 2020-05-07 13:30:49
  * @Description:
  * @LastEditors: HenryTSZ
- * @LastEditTime: 2020-05-30 17:36:57
+ * @LastEditTime: 2020-06-12 09:42:30
 -->
 <template>
   <component
@@ -21,15 +21,22 @@
       :key="option[item.selectProps ? item.selectProps.value : 'value']"
       :value="option[item.selectProps ? item.selectProps.value : 'value']"
       :label="option[item.selectProps ? item.selectProps.label : 'label']"
+      :disabled="option.disabled"
     ></el-option>
     <el-radio
       v-for="radio in item.radio"
       :key="radio[item.radioProps ? item.radioProps.value : 'value']"
       :label="radio[item.radioProps ? item.radioProps.value : 'value']"
+      :disabled="radio.disabled"
     >
       {{ radio[item.radioProps ? item.radioProps.label : 'label'] }}
     </el-radio>
-    <el-checkbox v-for="checkbox in item.checkbox" :key="checkbox" :label="checkbox"></el-checkbox>
+    <el-checkbox
+      v-for="checkbox in item.checkbox"
+      :key="checkbox"
+      :label="checkbox"
+      :disabled="checkbox.disabled"
+    ></el-checkbox>
     <slot v-for="(value, key) in item.slots" :name="key" :slot="key">{{ value }}</slot>
   </component>
 </template>

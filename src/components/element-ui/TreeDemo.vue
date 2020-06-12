@@ -125,8 +125,8 @@ export default {
   props: {},
   data() {
     return {
-      treeName: 'Tree1',
-      level: 0,
+      treeName: 'Tree2',
+      level: 1,
       treeProps: {
         data,
         props: { children: 'childrenList', label: 'menuName' },
@@ -134,6 +134,7 @@ export default {
         showCheckAll: true,
         'default-checked-keys': [2, 8],
         // 'check-strictly': true,
+        defaultExpandAll: true,
         nodeKey: 'menuId'
       }
     }

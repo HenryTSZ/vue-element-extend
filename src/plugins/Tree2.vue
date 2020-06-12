@@ -3,7 +3,7 @@
  * @Date: 2020-01-31 11:15:30
  * @Description: https://vue-element-extend.now.sh/#/element-ui/TreeDemo
  * @LastEditors: HenryTSZ
- * @LastEditTime: 2020-05-21 14:43:04
+ * @LastEditTime: 2020-06-12 09:54:46
  -->
 <template>
   <div class="b-tree">
@@ -21,6 +21,8 @@
       :data="data"
       v-bind="$attrs"
       :node-key="nodeKey"
+      :default-expand-all="defaultExpandAll"
+      :default-expanded-keys="defaultExpandedKeys"
       :show-checkbox="showCheckbox"
       v-on="$listeners"
       @check-change="handleCheckChange"
@@ -44,6 +46,16 @@ export default {
       type: String,
       default: 'id'
     },
+    defaultExpandAll: {
+      type: Boolean,
+      default: false
+    },
+    defaultExpandedKeys: {
+      type: Array,
+      default() {
+        return []
+      }
+    },
     showCheckAll: {
       type: Boolean,
       default: false
@@ -61,6 +73,7 @@ export default {
     return {
       ref: 'elTree',
       key: '',
+      isFirst: true,
       isIndeterminate: false,
       checkAll: false,
       timeout: null
@@ -86,6 +99,11 @@ export default {
      * @param {Number} level 要展开至几级？0, 1, 2, 3...
      **/
     expandToLevel(level) {
+      if (this.isFirst && (this.defaultExpandAll || this.defaultExpandedKeys.length)) {
+        this.isFirst = false
+        return
+      }
+      this.isFirst = false
       this.$nextTick(() => {
         const elTreeStore = this.$refs[this.ref].store
         const allNodes = elTreeStore._getAllNodes().sort((a, b) => b.level - a.level)
