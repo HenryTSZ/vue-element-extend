@@ -7,11 +7,19 @@
 
     v-model: [String, Number, Array]
 
-    selectProps: el-select 的 Attributes
+    selectProps: el-select 的 Attributes; 可不传此参数, 可按照 el-select 的传参方式传入
 
     treeProps: el-tree 的 Attributes
 
     currentIsLeaf: 单选时是否只能选择叶子节点, 默认 false
+
+    isLeafFun:
+    /**
+     * @description: 自定义单选时只能选择子节点方法; 优先级高于 currentIsLeaf
+     * @param {data: Object}: 当前节点数据
+     * @param {node: Object}: 当前节点 Node 对象
+     * @return: Boolean
+     */
 
   具体实现请移步 <el-link
       type="primary"

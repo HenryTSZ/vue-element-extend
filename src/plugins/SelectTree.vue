@@ -3,7 +3,7 @@
     <el-select
       ref="select"
       v-model="selectData"
-      v-bind="selectProps"
+      v-bind="{ ...$attrs, ...selectProps }"
       @visible-change="handleVisibleChange"
       @remove-tag="handleRemoveTag"
       @clear="handleClear"
@@ -52,6 +52,15 @@ export default {
     currentIsLeaf: {
       type: Boolean,
       default: false
+    },
+    /**
+     * @description: 自定义单选时只能选择子节点方法; 优先级高于 currentIsLeaf
+     * @param {data: Object}: 当前节点数据
+     * @param {node: Object}: 当前节点 Node 对象
+     * @return: Boolean
+     */
+    isLeafFun: {
+      type: Function
     }
   },
   data() {
@@ -148,7 +157,9 @@ export default {
       if (!currentNode) return
       const node = this.$refs.tree.getNode(currentNode)
       // 判断叶子节点
-      if (this.currentIsLeaf && !node.isLeaf) return
+      if (this.isLeafFun ? this.isLeafFun(currentNode, node) : !node.isLeaf && this.currentIsLeaf) {
+        return
+      }
       this.selectOptions = []
       this.selectData = ''
       const value = node.key
