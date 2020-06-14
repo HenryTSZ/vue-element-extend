@@ -90,7 +90,7 @@ export default {
       return this.selectProps.multiple || this.multiple
     },
     expandOnClickNode() {
-      return this.multiple ? true : this.currentIsLeaf
+      return this.isMultiple ? true : this.currentIsLeaf
     }
   },
   watch: {
@@ -105,7 +105,7 @@ export default {
   methods: {
     init() {
       this.$nextTick(() => {
-        if (this.multiple) {
+        if (this.isMultiple) {
           this.handleCheckChange()
         } else {
           this.handleCurrentChange()
@@ -153,7 +153,7 @@ export default {
     // 单选, 节点被点击时的回调, 返回被点击的节点数据
     handleCurrentChange() {
       // 如果多选, 不处理
-      if (this.multiple) return
+      if (this.isMultiple) return
       // 给 selectOptions 一个默认值, 防止出现无数据, 从而无法显示 tree
       this.selectOptions = [{}]
       const currentNode = this.$refs.tree.getCurrentNode()
