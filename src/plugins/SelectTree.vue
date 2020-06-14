@@ -35,6 +35,10 @@ export default {
       type: [String, Number, Array],
       required: true
     },
+    multiple: {
+      type: Boolean,
+      default: false
+    },
     selectProps: {
       type: Object,
       default() {
@@ -73,17 +77,17 @@ export default {
   computed: {
     treeBind() {
       return {
-        showCheckbox: this.selectProps.multiple,
-        highlightCurrent: !this.selectProps.multiple,
+        showCheckbox: this.isMultiple,
+        highlightCurrent: !this.isMultiple,
         expandOnClickNode: this.expandOnClickNode,
         nodeKey: 'id',
         ...this.treeProps,
-        defaultCheckedKeys: this.selectProps.multiple ? this.value : [],
-        currentNodeKey: this.selectProps.multiple ? '' : this.value
+        defaultCheckedKeys: this.isMultiple ? this.value : [],
+        currentNodeKey: this.isMultiple ? '' : this.value
       }
     },
-    multiple() {
-      return this.selectProps.multiple
+    isMultiple() {
+      return this.selectProps.multiple || this.multiple
     },
     expandOnClickNode() {
       return this.multiple ? true : this.currentIsLeaf
