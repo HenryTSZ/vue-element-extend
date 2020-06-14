@@ -3,7 +3,7 @@
  * @Date: 2020-01-31 11:15:30
  * @Description: https://vue-element-extend.now.sh/#/element-ui/TreeDemo
  * @LastEditors: HenryTSZ
- * @LastEditTime: 2020-06-12 09:54:46
+ * @LastEditTime: 2020-06-14 15:19:36
  -->
 <template>
   <div class="b-tree">
@@ -33,6 +33,8 @@
 </template>
 
 <script>
+const childNodes = 'childNodes'
+
 export default {
   name: 'Tree',
   props: {
@@ -73,6 +75,8 @@ export default {
     return {
       ref: 'elTree',
       key: '',
+      allNodes: [],
+      maxLevel: 0,
       isFirst: true,
       isIndeterminate: false,
       checkAll: false,
@@ -80,9 +84,10 @@ export default {
     }
   },
   watch: {
-    data() {
-      this.key = Math.random()
-      this.handleCheckChange()
+    data: {
+      handler: 'handleData',
+      immediate: true,
+      deep: true
     },
     level: {
       handler: 'expandToLevel',
@@ -98,38 +103,62 @@ export default {
      * @method 展开至指定层级
      * @param {Number} level 要展开至几级？0, 1, 2, 3...
      **/
-    expandToLevel(level) {
+    async expandToLevel(level) {
       if (this.isFirst && (this.defaultExpandAll || this.defaultExpandedKeys.length)) {
         this.isFirst = false
         return
       }
       this.isFirst = false
+      if (!this.maxLevel) {
+        await this.handleData()
+      }
+      const allNodes = this.allNodes.sort((a, b) => b.level - a.level)
+      if (level === 0) {
+        // 展开全部
+        allNodes.forEach(node => {
+          node.isLeaf && node.expand(null, true)
+        })
+      } else {
+        allNodes.forEach(node => {
+          if (node.level >= level) {
+            node.expanded = false
+          } else {
+            node.expanded = true
+          }
+        })
+      }
+    },
+    handleData() {
       this.$nextTick(() => {
-        const elTreeStore = this.$refs[this.ref].store
-        const allNodes = elTreeStore._getAllNodes().sort((a, b) => b.level - a.level)
-        if (level === 0) {
-          // 展开全部
-          allNodes.forEach(node => {
-            node.isLeaf && node.expand(null, true)
-          })
-        } else {
-          allNodes.forEach(node => {
-            if (node.level >= level) {
-              node.expanded = false
-            } else {
-              node.expanded = true
-            }
-          })
-        }
+        this.allNodes = this.getAllNodes(this.$refs[this.ref].root[childNodes])
+        this.allNodes.length &&
+          (this.maxLevel = Math.max.apply(
+            null,
+            this.allNodes.map(({ level }) => level)
+          ))
+        this.$emit('max-level', this.maxLevel)
+        this.handleCheckChange()
+        return Promise.resolve()
       })
+    },
+    getAllNodes() {
+      let allNodes = []
+      const traverse = function(node) {
+        const childNodes = node.root ? node.root.childNodes : node.childNodes
+        childNodes.forEach(child => {
+          allNodes.push(child)
+          traverse(child)
+        })
+      }
+      traverse(this.$refs[this.ref])
+      return allNodes
     },
     // 处理全选
     handleCheckAllChange() {
       this.isIndeterminate = false
       let checkedKeys = []
       if (this.checkAll) {
-        const elTreeStore = this.$refs[this.ref].store
-        const checkedNodes = elTreeStore._getAllNodes().filter(({ visible }) => visible)
+        const checkedNodes = this.allNodes.filter(({ visible }) => visible)
         checkedKeys = checkedNodes.map(({ key }) => key)
         this.$emit(
           'check',
@@ -168,10 +197,7 @@ export default {
       this.timeout = setTimeout(func, wait)
     },
     handleCheckAllStatus() {
-      const elTreeStore = this.$refs[this.ref].store
-      const allNodes = elTreeStore
-        ._getAllNodes()
-        .filter(({ level, visible }) => level === 1 && visible)
+      const allNodes = this.allNodes.filter(({ level, visible }) => level === 1 && visible)
       // 关于 filter 的说明:
       // 全选的状态其实只和根节点的状态有关, 而且也处理了 set 方法中 leafOnly 为 true 的情况
       // visible 结合过滤使用

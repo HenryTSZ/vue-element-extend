@@ -48,6 +48,10 @@ export default {
     }
   },
   watch: {
+    data: {
+      handler: 'handleData',
+      immediate: true
+    },
     level: {
       handler: 'expandToLevel',
       immediate: true
@@ -67,6 +71,7 @@ export default {
       this.$nextTick(() => {
         const elTreeStore = this.$refs[this.ref].store
         const allNodes = elTreeStore._getAllNodes().sort((a, b) => b.level - a.level)
+        console.log('expandToLevel -> elTreeStore._getAllNodes()', elTreeStore._getAllNodes())
         if (level === 0) {
           // 展开全部
           allNodes.forEach(node => {
@@ -82,6 +87,19 @@ export default {
           })
         }
       })
+    },
+    handleData() {
+      if (this.isCheckAll && this.data.length) {
+        this.treeData = [
+          {
+            [this.$refs[this.ref].props.label]: '全选',
+            [this.nodeKey]: this.checkAllId,
+            [this.$refs[this.ref].props.children]: this.data
+          }
+        ]
+      } else {
+        this.treeData = this.data
+      }
     },
     getCheckedNodes(leafOnly, includeHalfChecked) {
       if (this.isCheckAll) {
@@ -113,17 +131,6 @@ export default {
     }
   },
   mounted() {
-    if (this.isCheckAll) {
-      this.treeData = [
-        {
-          [this.$refs[this.ref].props.label]: '全选',
-          [this.nodeKey]: this.checkAllId,
-          [this.$refs[this.ref].props.children]: this.data
-        }
-      ]
-    } else {
-      this.treeData = this.data
-    }
     // 绑定 el-tree 方法
     for (let key in this.$refs[this.ref]) {
       if (!(key in this) && typeof this.$refs[this.ref][key] === 'function') {

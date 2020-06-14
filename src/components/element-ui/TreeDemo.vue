@@ -42,8 +42,14 @@
       <el-radio label="Tree3">Tree3</el-radio>
     </el-radio-group>
     展开到
-    <el-input-number v-model="level" :min="0" :max="levels" label="描述文字"></el-input-number>
+    <el-input-number v-model="level" :min="0" :max="maxLevel" label="描述文字"></el-input-number>
     级
+
+    <div class="buttons">
+      <el-button @click="load(1)">加载数据一</el-button>
+      <el-button @click="load(2)">加载数据二</el-button>
+      <el-button @click="load()">清空数据</el-button>
+    </div>
 
     <div class="buttons">
       <el-button @click="getCheckedNodes">通过 node 获取</el-button>
@@ -59,6 +65,7 @@
       ref="tree"
       v-bind="treeProps"
       :level="level"
+      @max-level="getMaxLevel"
       @check="check"
       @check-change="handleCheckChange"
     ></component>
@@ -69,7 +76,7 @@
 import Tree1 from 'plugins/Tree1'
 import Tree2 from 'plugins/Tree2'
 import Tree3 from 'plugins/Tree3'
-const data = [
+const data1 = [
   {
     menuId: 1,
     menuName: '一级 1',
@@ -119,16 +126,67 @@ const data = [
     ]
   }
 ]
+const data2 = [
+  {
+    menuId: 21,
+    menuName: '一级 21',
+    childrenList: [
+      {
+        menuId: 24,
+        menuName: '二级 21-1',
+        childrenList: [
+          {
+            menuId: 29,
+            menuName: '三级 21-1-1'
+          },
+          {
+            menuId: 210,
+            menuName: '三级 21-1-2'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    menuId: 22,
+    menuName: '一级 22',
+    childrenList: [
+      {
+        menuId: 25,
+        menuName: '二级 22-1'
+      },
+      {
+        menuId: 26,
+        menuName: '二级 22-2'
+      }
+    ]
+  },
+  {
+    menuId: 23,
+    menuName: '一级 23',
+    childrenList: [
+      {
+        menuId: 27,
+        menuName: '二级 23-1'
+      },
+      {
+        menuId: 28,
+        menuName: '二级 23-2'
+      }
+    ]
+  }
+]
 export default {
   name: 'BaseTree',
   components: { Tree1, Tree2, Tree3 },
   props: {},
   data() {
     return {
+      maxLevel: 0,
       treeName: 'Tree2',
       level: 1,
       treeProps: {
-        data,
+        data: [],
         props: { children: 'childrenList', label: 'menuName' },
         showCheckbox: true,
         showCheckAll: true,
@@ -139,14 +197,14 @@ export default {
       }
     }
   },
-  computed: {
-    levels() {
-      return this.$utils.getTreeMaxLevel(data, 'childrenList') + 1
-    }
-  },
-  watch: {},
   methods: {
-    init() {},
+    load(type) {
+      const data = type ? (type === 1 ? data1 : data2) : []
+      this.treeProps.data = data
+    },
+    getMaxLevel(maxLevel) {
+      this.maxLevel = maxLevel
+    },
     getCheckedNodes() {
       console.log(this.$refs.tree.getCheckedNodes())
     },
@@ -188,11 +246,7 @@ export default {
         indeterminate
       )
     }
-  },
-  created() {
-    this.init()
-  },
-  mounted() {}
+  }
 }
 </script>
 

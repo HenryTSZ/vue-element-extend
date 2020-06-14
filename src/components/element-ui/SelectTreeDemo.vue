@@ -14,10 +14,14 @@
     currentIsLeaf: 单选时是否只能选择叶子节点, 默认 false
 
     isLeafFun:
+
     /**
      * @description: 自定义单选时只能选择子节点方法; 优先级高于 currentIsLeaf
+
      * @param {data: Object}: 当前节点数据
+
      * @param {node: Object}: 当前节点 Node 对象
+
      * @return: Boolean
      */
 
