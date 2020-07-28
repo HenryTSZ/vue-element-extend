@@ -157,21 +157,25 @@ export default {
       // 给 selectOptions 一个默认值, 防止出现无数据, 从而无法显示 tree
       this.selectOptions = [{}]
       const currentNode = this.$refs.tree.getCurrentNode()
-      // 初始值为空
-      if (!currentNode) return
+      // 当前传入的值在 tree 中无法找到, 需要清空 select 值
+      if (!currentNode) {
+        this.selectData = ''
+        return
+      }
       const node = this.$refs.tree.getNode(currentNode)
       // 判断叶子节点
       if (this.isLeafFun ? this.isLeafFun(currentNode, node) : !node.isLeaf && this.currentIsLeaf) {
         return
       }
-      this.selectOptions = []
       this.selectData = ''
       const value = node.key
       const label = node.label
-      this.selectOptions.push({
-        value,
-        label
-      })
+      this.selectOptions = [
+        {
+          value,
+          label
+        }
+      ]
       this.selectData = value
       this.$refs.select.blur()
     },
