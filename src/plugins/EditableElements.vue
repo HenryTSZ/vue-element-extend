@@ -3,7 +3,7 @@
  * @Date: 2020-05-07 13:30:49
  * @Description:
  * @LastEditors: HenryTSZ
- * @LastEditTime: 2020-06-12 09:42:30
+ * @LastEditTime: 2020-07-28 09:34:22
 -->
 <template>
   <component
@@ -48,6 +48,7 @@ export default {
   name: 'EditableElements',
   components: {
     NumberInput: resolve => require(['plugins/NumberInput'], resolve),
+    RegInput: resolve => require(['plugins/RegInput'], resolve),
     SelectTree: resolve => require(['plugins/SelectTree'], resolve)
   },
   props: {

@@ -50,6 +50,7 @@ export default {
             'EditableElementsDemo',
             // 'EditableTable1',
             'NumberInputDemo',
+            'RegInputDemo',
             'SelectTreeDemo',
             // 'TreeCheckboxs',
             'TreeDemo',
