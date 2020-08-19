@@ -3,7 +3,7 @@
  * @Date: 2020-05-10 10:06:07
  * @Description:
  * @LastEditors: HenryTSZ
- * @LastEditTime: 2020-07-28 10:58:54
+ * @LastEditTime: 2020-08-18 18:15:22
  -->
 <template>
   <div class="reg-input-demo">
@@ -21,7 +21,7 @@
   具体实现请移步 <el-link
       type="primary"
       :underline="false"
-      href="https://tsz.now.sh/2020/05/10/based-on-element-ui-encapsulation-number-input/"
+      href="https://tsz.now.sh/2020/05/10/based-on-element-ui-encapsulation-number-input/#%E6%89%A9%E5%B1%95"
       target="_blank"
       >基于 ElementUI 封装的 NumberInput | Henry</el-link
     >

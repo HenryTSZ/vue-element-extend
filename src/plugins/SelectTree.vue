@@ -165,6 +165,8 @@ export default {
       const node = this.$refs.tree.getNode(currentNode)
       // 判断叶子节点
       if (this.isLeafFun ? this.isLeafFun(currentNode, node) : !node.isLeaf && this.currentIsLeaf) {
+        // 如果不是叶子节点, 设置当前选中节点仍为上一个叶子节点
+        this.$refs.tree.setCurrentKey(this.selectData || null)
         return
       }
       this.selectData = ''

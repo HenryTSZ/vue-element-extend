@@ -55,7 +55,8 @@ export default {
             // 'TreeCheckboxs',
             'TreeDemo',
             'TreeTableDemo',
-            'UploadFileDemo'
+            'UploadFileDemo',
+            'TextEllipsisDemo'
           ]
         },
         {
