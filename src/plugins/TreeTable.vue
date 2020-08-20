@@ -10,7 +10,7 @@
     <template v-for="(column, index) in cols">
       <el-table-column
         v-if="column.editable || column.editableFun"
-        :key="column.prop"
+        :key="`${column.prop}-edit`"
         v-bind="column"
       >
         <template slot-scope="{ row, $index }">

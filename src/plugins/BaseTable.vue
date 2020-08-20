@@ -3,7 +3,7 @@
  * @Date: 2020-04-07 09:50:24
  * @Description:
  * @LastEditors: HenryTSZ
- * @LastEditTime: 2020-06-01 18:27:42
+ * @LastEditTime: 2020-08-20 15:07:32
  -->
 <template>
   <el-table ref="elTable" class="base-table" v-bind="$attrs" v-on="$listeners">
@@ -11,7 +11,7 @@
     <template v-for="(column, index) in cols">
       <el-table-column
         v-if="column.editable || column.editableFun"
-        :key="column.prop"
+        :key="`${column.prop}-edit`"
         v-bind="column"
       >
         <template slot-scope="{ row, $index }">
