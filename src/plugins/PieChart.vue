@@ -52,47 +52,83 @@ export default {
   },
   methods: {
     renderChart() {
-      this.title = this.options.text || this.options.toolboxName || ''
+      const { seriesData } = this.options
+      if (!seriesData || !seriesData.length) {
+        return
+      }
+      const {
+        text = '',
+        color = this.baseColor,
+        textColor = this.textColor,
+        textFontSize = 18,
+        subtext,
+        subtextColor = this.textColor,
+        subtextFontSize = 12,
+        titleLeft = 'center',
+        showLegend,
+        legend,
+        legendOrient = 'horizontal',
+        legendLeft = 20,
+        legendTop = 35,
+        hideTooltip,
+        legendColor = this.textColor,
+        tooltipFormatter = '{b}: {c} ({d}%)',
+        hideToolBox,
+        hideImage,
+        toolboxName = text,
+        toolboxRight = 25,
+        toolboxTop = 20,
+        inradius = ['50%', '70%'],
+        roseType = false,
+        outradius,
+        formatter = '{b}: {c}'
+      } = this.options
+      this.title = text || toolboxName || ''
       this.polar = {
-        color: this.options.color || this.baseColor,
+        color,
         // 标题
         title: {
-          text: this.options.text || '',
+          text,
           textStyle: {
-            color: this.options.textColor || this.textColor
+            color: textColor,
+            fontSize: textFontSize
           },
-          subtext: this.options.subtext || '',
-          left: this.options.titleLeft || 'center'
+          subtext: subtext,
+          subtextStyle: {
+            color: subtextColor,
+            fontSize: subtextFontSize
+          },
+          left: titleLeft
         },
         // 图例
         legend: {
-          show: this.options.showLegend,
-          data: this.options.legendData,
-          orient: this.options.legendOrient || 'horizontal',
-          left: this.$utils.checkParameter(this.options.legendLeft, 20),
-          top: this.$utils.checkParameter(this.options.legendTop, 30),
+          show: this.$utils.checkParam(showLegend, legend && legend.length > 1),
+          data: legend,
+          orient: legendOrient,
+          left: legendLeft,
+          top: legendTop,
           textStyle: {
-            color: this.options.legendColor || this.textColor
+            color: legendColor
           }
         },
         // 提示框
         tooltip: {
-          show: !this.options.hideTooltip,
+          show: !hideTooltip,
           trigger: 'item',
-          formatter: this.options.formatTip || '{b}: {c} ({d}%)'
+          formatter: tooltipFormatter
         },
         // 工具栏
         toolbox: {
-          show: !this.options.hideToolBox,
+          show: !hideToolBox,
           feature: {
             saveAsImage: {
-              show: !this.options.hideImage,
-              name: this.options.toolboxName || this.options.text,
+              show: !hideImage,
+              name: toolboxName,
               backgroundColor: 'rgba(0, 35, 55, 0.4)'
             }
           },
-          right: this.$utils.checkParameter(this.options.toolboxRight, 25),
-          top: this.$utils.checkParameter(this.options.toolboxTop, 30),
+          right: toolboxRight,
+          top: toolboxTop,
           iconStyle: {
             normal: {
               borderColor: this.textColor
@@ -102,42 +138,42 @@ export default {
         series: [
           {
             // 内环
-            name: this.options.text,
+            name: text,
             type: 'pie',
-            radius: this.options.inradius || ['50%', '70%'],
+            radius: inradius,
             // 是否展示成南丁格尔图
-            roseType: this.options.roseType || false,
+            roseType: roseType,
             selectedMode: 'single',
             label: {
               normal: {
-                show: !this.options.outradius,
-                formatter: this.options.formatter || '{b}：{c}'
+                show: !outradius,
+                formatter: formatter
               }
             },
             labelLine: {
               normal: {
-                show: !this.options.outradius
+                show: !outradius
               }
             },
-            data: this.options.seriesData
+            data: seriesData
           },
           {
             // 外环
-            name: this.options.text,
+            name: text,
             type: 'pie',
-            radius: this.options.outradius,
+            radius: outradius,
             label: {
               normal: {
-                show: !!this.options.outradius,
-                formatter: this.options.formatter || '{b}: {c}'
+                show: !!outradius,
+                formatter: formatter
               }
             },
             labelLine: {
               normal: {
-                show: !!this.options.outradius
+                show: !!outradius
               }
             },
-            data: this.options.seriesData
+            data: seriesData
           }
         ]
       }

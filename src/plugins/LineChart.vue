@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import NoData from 'plugins/NoData'
+import NoData from './NoData'
 export default {
   name: 'LineChart',
   props: {
@@ -46,79 +46,136 @@ export default {
     }
   },
   watch: {
-    options() {
-      this.renderChart()
+    options: {
+      handler: 'renderChart',
+      deep: true
     }
   },
   methods: {
     renderChart() {
-      let that = this
-      this.title = this.options.text || this.options.toolboxName || ''
-      let isZoom = this.options.xAxis && this.options.xAxis.length > 10
+      const { xAxis, yAxis } = this.options
+      if (!xAxis || !yAxis || !xAxis.length || !yAxis.length) {
+        return
+      }
+      const {
+        text = '',
+        isZoom = xAxis && xAxis.length > 10,
+        hideMark,
+        color = this.baseColor,
+        textColor = this.textColor,
+        textFontSize = 18,
+        subtext,
+        subtextColor = this.textColor,
+        subtextFontSize = 12,
+        titleLeft = 'center',
+        showLegend,
+        legend,
+        hideTooltip,
+        legendTop = 35,
+        legendColor = this.textColor,
+        tooltipType = 'line',
+        tooltipFormatter = null,
+        hideToolBox,
+        hideImage,
+        toolboxName = text,
+        toolboxRight = 25,
+        toolboxTop = 20,
+        gridLeft = '3%',
+        gridRight = '3%',
+        gridBottom = '3%',
+        gridTop = '15%',
+        hidexAxis,
+        hideAxisLine,
+        xAxisColor = this.textColor,
+        showxAxisSplitLine,
+        xAxisLineOpacity = 1,
+        xAxisTickLength = 5,
+        hidexAxisLabel,
+        xAxisLabelColor = this.textColor,
+        xAxisLabelFontSize = 12,
+        xAxisLabelInterval = 0,
+        xAxisMaxLength = 8,
+        minRange = null,
+        maxRange = null,
+        yAxisSplitNumber = 5,
+        hideyAxis,
+        yAxisColor = this.textColor,
+        hideyAxisSplitLine,
+        yAxisSplitLineColor = this.textColor,
+        yAxisSplitLineOpacity = 1,
+        yAxisTickLength = 5,
+        id,
+        showLabel,
+        smooth = false,
+        labelFontSize = 12,
+        labelFontWeight = 'normal',
+        labelFormat = '{c}',
+        labelOffset = [0, 25],
+        symbolSize,
+        areaOpacity = 0
+      } = this.options
+      this.title = text || toolboxName || ''
       let markData = []
       // 当开启缩放后，不能使用气球样式
-      if (!isZoom && !this.options.hideMark) {
-        if (
-          this.options.yAxis &&
-          Object.prototype.toString.call(this.options.yAxis) === '[object Array]'
-        ) {
-          markData = this.options.yAxis.map((item, index) => ({
+      if (!isZoom && !hideMark) {
+        if (yAxis && Array.isArray(yAxis)) {
+          markData = yAxis.map((item, index) => ({
             coord: [index, item],
             value: item
           }))
         }
       }
       this.polar = {
-        color: this.options.color || this.baseColor,
+        color,
         // 标题
         title: {
-          text: this.options.text || '',
+          text,
           textStyle: {
-            color: this.options.textColor || this.textColor
+            color: textColor,
+            fontSize: textFontSize
           },
-          subtext:
-            this.options.subtext ||
-            (isZoom ? '当前数据较多，请滚动鼠标或缩放屏幕查看完整数据' : ''),
+          subtext: subtext || (isZoom ? '当前数据较多，请滚动鼠标或缩放屏幕查看完整数据' : ''),
           subtextStyle: {
-            color: this.options.subtextColor || '#aaa',
-            fontSize: this.options.subtextFontSize || 12
+            color: subtextColor,
+            fontSize: subtextFontSize
           },
-          left: this.options.titleLeft || 'center'
+          left: titleLeft
         },
         // 图例
         legend: {
           type: 'scroll', // 只有容器放不下图例, scroll 才会生效
-          show: this.options.showLegend || (this.options.legend && this.options.legend.length > 1),
-          data: this.options.legend || [this.options.text],
-          right: !this.options.hideTooltip ? 50 : 20,
-          top: this.$utils.checkParameter(this.options.legendTop, 35),
+          show: this.$utils.checkParam(showLegend, legend && legend.length > 1),
+          data: legend || [text],
+          right: !hideTooltip ? 50 : 20,
+          top: legendTop,
           itemWidth: 40,
           itemHeight: 20,
           textStyle: {
-            color: this.options.legendColor || this.textColor
+            color: legendColor
           }
         },
         // 提示框
         tooltip: {
-          show: !this.options.hideTooltip,
+          show: !hideTooltip,
           trigger: 'axis',
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
-            type: this.options.tooltipType || 'line' // 默认为直线，可选为：'line' | 'shadow'
-          }
+            type: tooltipType // 默认为直线，可选为：'line' | 'shadow'
+          },
+          formatter: tooltipFormatter
         },
         // 工具栏
         toolbox: {
-          show: !this.options.hideToolBox,
+          show: !hideToolBox,
           feature: {
             saveAsImage: {
-              show: !this.options.hideImage,
-              name: this.options.toolboxName || this.options.text,
+              show: !hideImage,
+              name: toolboxName,
               backgroundColor: 'rgba(0, 35, 55, 1)'
             }
           },
-          right: this.$utils.checkParameter(this.options.toolboxRight, 25),
-          top: this.$utils.checkParameter(this.options.toolboxTop, 20),
+          right: toolboxRight,
+          top: toolboxTop,
           iconStyle: {
             normal: {
               borderColor: this.textColor
@@ -127,52 +184,55 @@ export default {
         },
         // 直角坐标系内绘图网格
         grid: {
-          left: this.$utils.checkParameter(this.options.gridLeft, '3%'),
-          right: this.$utils.checkParameter(this.options.gridRight, '4%'),
-          bottom: this.$utils.checkParameter(this.options.gridBottom, '3%'),
-          top: this.$utils.checkParameter(this.options.gridTop, '25%'),
+          left: gridLeft,
+          right: gridRight,
+          bottom: gridBottom,
+          top: gridTop,
           containLabel: true
         },
         xAxis: [
           {
             type: 'category',
             // boundaryGap: false, // 坐标轴两边留白策略 默认 true
-            show: !this.options.hidexAxis,
-            data: this.options.xAxis,
+            show: !hidexAxis,
+            data: xAxis,
             // 坐标轴轴线
             axisLine: {
-              show: !this.options.hideAxisLine,
+              show: !hideAxisLine,
               lineStyle: {
-                color: this.options.xAxisColor || this.textColor
+                color: xAxisColor
               }
             },
             // 坐标轴在 grid 区域中的分隔线
             splitLine: {
-              show: this.options.showxAxisSplitLine,
+              show: showxAxisSplitLine,
               lineStyle: {
-                opacity: this.$utils.checkParameter(this.options.xAxisLineOpacity, 1)
+                opacity: xAxisLineOpacity
               }
             },
             // 坐标轴刻度
             axisTick: {
-              length: this.$utils.checkParameter(this.options.xAxisTickLength, 5),
+              length: xAxisTickLength,
               alignWithLabel: true
             },
             // 坐标轴刻度标签
             axisLabel: {
+              show: !hidexAxisLabel,
+              color: xAxisLabelColor,
+              fontSize: xAxisLabelFontSize,
               // 坐标轴刻度标签的显示间隔，在类目轴中有效。可以设置成 0 强制显示所有标签。
-              interval: 0,
+              interval: xAxisLabelInterval,
               formatter(value) {
                 let ret = '' // 拼接加\n返回的类目项
-                let maxLength = that.options.xAxisMaxLength || 8 // 每项显示文字个数
+                // xAxisMaxLength 每项显示文字个数
                 let valLength = value.length // X轴类目项的文字个数
-                let rowN = Math.ceil(valLength / maxLength) // 类目项需要换行的行数
+                let rowN = Math.ceil(valLength / xAxisMaxLength) // 类目项需要换行的行数
                 if (rowN > 1) {
                   // 如果类目项的文字大于8,
                   for (let i = 0; i < rowN; i++) {
                     let temp = '' // 每次截取的字符串
-                    let start = i * maxLength // 开始截取的位置
-                    let end = start + maxLength // 结束截取的位置
+                    let start = i * xAxisMaxLength // 开始截取的位置
+                    let end = start + xAxisMaxLength // 结束截取的位置
                     // 这里加一个是否是最后一行的判断
                     temp = value.substring(start, end) + (i === rowN - 1 ? '' : '\n')
                     ret += temp // 拼接最终的字符串
@@ -188,68 +248,69 @@ export default {
         yAxis: [
           {
             type: 'value',
-            min: this.$utils.checkParameter(this.options.minRange, null),
-            max: this.$utils.checkParameter(this.options.maxRange, null),
-            splitNumber: this.$utils.checkParameter(this.options.yAxisSplitNumber, 5),
-            show: !this.options.hideyAxis,
+            min: minRange,
+            max: maxRange,
+            splitNumber: yAxisSplitNumber,
+            show: !hideyAxis,
             // 坐标轴轴线
             axisLine: {
-              show: !this.options.hideAxisLine,
+              show: !hideAxisLine,
               lineStyle: {
-                color: this.options.yAxisColor || this.textColor
+                color: yAxisColor
               }
             },
             // 坐标轴在 grid 区域中的分隔线
             splitLine: {
-              show: !this.options.hideyAxisSplitLine,
+              show: !hideyAxisSplitLine,
               lineStyle: {
-                color: this.options.yAxisSplitLineColor || '#ccc',
-                opacity: this.options.yAxisSplitLineOpacity || 1
+                color: yAxisSplitLineColor,
+                opacity: yAxisSplitLineOpacity
               }
             },
             // 坐标轴刻度
             axisTick: {
-              length: this.$utils.checkParameter(this.options.yAxisTickLength, 5),
+              length: yAxisTickLength,
               alignWithLabel: true
             }
           }
         ]
       }
       // 多例
-      if (this.options.legend && this.options.legend.length > 1) {
+      if (legend && legend.length > 1) {
         this.polar.series = []
-        this.options.legend.map((item, index) => {
+        legend.map((item, index) => {
           this.polar.series.push({
             name: item,
             type: 'line',
-            id: this.options.id && this.options.id[index],
+            id: id && id[index],
             lineStyle: {
               normal: {
                 width: 3
               }
             },
             symbolSize: 10,
-            data: this.options.yAxis[index]
+            data: yAxis[index]
           })
         })
         // 单例
       } else {
         this.polar.series = [
           {
-            name: this.options.text,
+            name: text,
             type: 'line',
-            data: this.options.yAxis,
+            smooth,
+            data: yAxis,
             // 文字在圆圈中显示
             label: {
               normal: {
-                show: this.options.showLabel || isZoom,
-                fontSize: this.options.labelFontSize || 12,
-                fontWeight: this.options.labelFontWeight || 'normal',
-                formatter: this.options.labelFormat || '{c}',
-                offset: this.options.labelOffset || [0, 25]
+                show: this.$utils.checkParam(showLabel, isZoom),
+                fontSize: labelFontSize,
+                fontWeight: labelFontWeight,
+                formatter: labelFormat,
+                offset: labelOffset
               }
             },
-            symbolSize: this.$utils.checkParameter(this.options.symbolSize, isZoom ? 30 : 5),
+            symbolSize: this.$utils.checkParam(symbolSize, isZoom ? 30 : 5),
             // 气球显示
             markPoint: {
               data: markData
@@ -257,7 +318,7 @@ export default {
             // 设置区域颜色渐变
             areaStyle: {
               normal: {
-                opacity: this.options.areaOpacity || 0,
+                opacity: areaOpacity,
                 color: {
                   type: 'linear',
                   x: 0,
@@ -267,11 +328,11 @@ export default {
                   colorStops: [
                     {
                       offset: 0,
-                      color: (this.options.color && this.options.color[0]) || this.baseColor[0] // 0% 处的颜色
+                      color: (color && color[0]) || this.baseColor[0] // 0% 处的颜色
                     },
                     {
                       offset: 1,
-                      color: (this.options.color && this.options.color[1]) || this.baseColor[1] // 100% 处的颜色
+                      color: (color && color[1]) || this.baseColor[1] // 100% 处的颜色
                     }
                   ],
                   globalCoord: true // 缺省为 false
@@ -303,5 +364,3 @@ export default {
   }
 }
 </script>
-
-<style></style>

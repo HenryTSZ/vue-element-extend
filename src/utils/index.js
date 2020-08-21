@@ -3,7 +3,7 @@
  * @Date: 2020-04-20 18:06:29
  * @Description: 公共方法
  * @LastEditors: HenryTSZ
- * @LastEditTime: 2020-08-19 14:36:24
+ * @LastEditTime: 2020-08-21 15:37:31
  */
 
 /**
@@ -11,9 +11,8 @@
  * @param {String} str
  * @return {String} result
  */
-export const upperFirst = str => {
-  return str.substring(0, 1).toUpperCase() + str.substring(1)
-}
+export const upperFirst = str => str.substring(0, 1).toUpperCase() + str.substring(1)
+
 export const firstUpperCase = ([first, ...rest]) => first.toUpperCase() + rest.join('')
 
 /**

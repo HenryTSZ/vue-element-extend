@@ -84,8 +84,8 @@ export default {
             color: this.options.subtextColor || '#f49800',
             fontSize: this.options.subtextFontSize || 12
           },
-          top: this.$utils.checkParameter(this.options.titleTop, 'auto'),
-          left: this.$utils.checkParameter(this.options.titleLeft, 'center'),
+          top: this.$utils.checkParam(this.options.titleTop, 'auto'),
+          left: this.$utils.checkParam(this.options.titleLeft, 'center'),
           backgroundColor: this.options.backgroundColor || 'transparent'
         },
         // 图例
@@ -132,10 +132,10 @@ export default {
         },
         // 直角坐标系内绘图网格
         grid: {
-          left: this.$utils.checkParameter(this.options.gridLeft, '3%'),
-          right: this.$utils.checkParameter(this.options.gridRight, '3%'),
-          bottom: this.$utils.checkParameter(this.options.gridBottom, '3%'),
-          top: this.$utils.checkParameter(this.options.gridTop, '3%'),
+          left: this.$utils.checkParam(this.options.gridLeft, '3%'),
+          right: this.$utils.checkParam(this.options.gridRight, '3%'),
+          bottom: this.$utils.checkParam(this.options.gridBottom, '3%'),
+          top: this.$utils.checkParam(this.options.gridTop, '3%'),
           containLabel: true
         },
         xAxis: {
@@ -215,10 +215,10 @@ export default {
             type: 'bar',
             barGap: '-100%',
             data: this.options.inside,
-            barWidth: this.$utils.checkParameter(this.options.insideWidth, 25),
+            barWidth: this.$utils.checkParam(this.options.insideWidth, 25),
             itemStyle: {
               normal: {
-                barBorderRadius: this.$utils.checkParameter(this.options.insideRadius, 25),
+                barBorderRadius: this.$utils.checkParam(this.options.insideRadius, 25),
                 // 添加一个是否渐变
                 color(params) {
                   if (that.options.isGradient) {
@@ -259,10 +259,10 @@ export default {
             type: 'bar',
             barGap: '-100%',
             data: this.options.outside,
-            barWidth: this.$utils.checkParameter(this.options.outsideWidth, 25),
+            barWidth: this.$utils.checkParam(this.options.outsideWidth, 25),
             itemStyle: {
               normal: {
-                barBorderRadius: this.$utils.checkParameter(this.options.outsideRadius, 25),
+                barBorderRadius: this.$utils.checkParam(this.options.outsideRadius, 25),
                 color: this.options.outsideBarBack || 'rgba(102, 102, 102, 0.5)'
               }
             },

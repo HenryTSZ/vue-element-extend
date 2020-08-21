@@ -53,49 +53,87 @@ export default {
   },
   methods: {
     renderChart() {
-      this.title = this.options.text || this.options.toolboxName || ''
+      const { data } = this.options
+      if (!data) {
+        return
+      }
+      const {
+        text = '',
+        color = this.baseColor,
+        textColor = this.textColor,
+        textFontSize = 18,
+        subtext,
+        subtextColor = this.textColor,
+        subtextFontSize = 12,
+        titleTop = '85%',
+        titleLeft = 'center',
+        showLegend,
+        legend,
+        legendOrient = 'horizontal',
+        legendLeft = 20,
+        legendTop = 35,
+        hideTooltip,
+        legendColor = this.textColor,
+        tooltipFormatter = '{b}: {c} ({d}%)',
+        hideToolBox,
+        hideImage,
+        toolboxName = text,
+        toolboxRight = 25,
+        toolboxTop = 20,
+        radius = ['75%', '95%'],
+        silent = true,
+        seriesBg = 'rgba(104, 151, 175, .32)',
+        hideName,
+        dataSize = 30,
+        statusSize = 14
+      } = this.options
+      this.title = text || toolboxName || ''
       this.polar = {
-        color: this.options.color || this.baseColor,
+        color,
         // 标题
         title: {
-          text: this.options.text || '',
+          text,
           textStyle: {
-            color: this.options.textColor || this.textColor,
-            fontSize: this.options.textSize || 14
+            color: textColor,
+            fontSize: textFontSize
           },
-          subtext: this.options.subtext || '',
-          top: this.$utils.checkParameter(this.options.titleTop, '85%'),
-          left: this.$utils.checkParameter(this.options.titleLeft, 'center')
+          subtext: subtext,
+          subtextStyle: {
+            color: subtextColor,
+            fontSize: subtextFontSize
+          },
+          top: titleTop,
+          left: titleLeft
         },
         // 图例
         legend: {
-          show: this.options.showLegend,
-          data: this.options.legendData,
-          orient: this.options.legendOrient || 'horizontal',
-          left: this.$utils.checkParameter(this.options.legendLeft, 20),
-          top: this.$utils.checkParameter(this.options.legendTop, 30),
+          show: showLegend,
+          data: legend,
+          orient: legendOrient,
+          left: legendLeft,
+          top: legendTop,
           textStyle: {
-            color: this.options.legendColor || this.textColor
+            color: legendColor
           }
         },
         // 提示框
         tooltip: {
-          show: !this.options.hideTooltip,
+          show: !hideTooltip,
           trigger: 'item',
-          formatter: '{b}: {c} ({d}%)'
+          formatter: tooltipFormatter
         },
         // 工具栏
         toolbox: {
-          show: this.options.showToolBox,
+          show: !hideToolBox,
           feature: {
             saveAsImage: {
-              show: !this.options.hideImage,
-              name: this.options.toolboxName || this.options.text,
+              show: !hideImage,
+              name: toolboxName,
               backgroundColor: 'rgba(0, 35, 55, 0.4)'
             }
           },
-          right: this.$utils.checkParameter(this.options.toolboxRight, 25),
-          top: this.$utils.checkParameter(this.options.toolboxTop, 30),
+          right: toolboxRight,
+          top: toolboxTop,
           iconStyle: {
             normal: {
               borderColor: this.textColor
@@ -104,23 +142,23 @@ export default {
         },
         series: [
           {
-            name: this.options.text,
+            name: text,
             type: 'pie',
-            radius: this.options.radius || ['75%', '95%'],
+            radius: radius,
             // 图形是否不响应和触发鼠标事件
-            silent: this.$utils.checkParameter(this.options.silent, true),
+            silent: silent,
             color: [
               new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                 {
                   offset: 0,
-                  color: this.options.color ? this.options.color[0] : this.baseColor[0]
+                  color: color ? color[0] : this.baseColor[0]
                 },
                 {
                   offset: 1,
-                  color: this.options.color ? this.options.color[1] : this.baseColor[1]
+                  color: color ? color[1] : this.baseColor[1]
                 }
               ]),
-              this.options.seriesBg || 'rgba(104, 151, 175, .32)'
+              seriesBg
             ],
             label: {
               normal: {
@@ -134,25 +172,25 @@ export default {
             },
             data: [
               {
-                value: this.options.data,
-                name: this.options.hideName ? '' : this.options.data + '',
+                value: data,
+                name: hideName ? '' : data + '',
                 label: {
                   normal: {
                     textStyle: {
-                      color: this.options.color ? this.options.color[1] : this.baseColor[1],
-                      fontSize: this.options.dataSize || 30
+                      color: color ? color[1] : this.baseColor[1],
+                      fontSize: dataSize
                     }
                   }
                 }
               },
               {
-                value: 100 - this.options.data,
-                name: this.options.hideName ? '' : this.options.status,
+                value: 100 - data,
+                name: hideName ? '' : status,
                 label: {
                   normal: {
                     textStyle: {
-                      color: this.options.color ? this.options.color[0] : this.baseColor[0],
-                      fontSize: this.options.statusSize || 14
+                      color: color ? color[0] : this.baseColor[0],
+                      fontSize: statusSize
                     }
                   }
                 }

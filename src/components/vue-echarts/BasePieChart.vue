@@ -1,3 +1,10 @@
+<!--
+ * @Author: HenryTSZ
+ * @Date: 2018-10-27 11:05:09
+ * @Description:
+ * @LastEditors: HenryTSZ
+ * @LastEditTime: 2020-08-21 16:05:34
+-->
 <template>
   <div class="base-chart">
     <el-row :gutter="20">
@@ -39,7 +46,7 @@ export default {
             inradius: [0, '60%'],
             showLegend: true,
             legendTop: 'bottom',
-            legendData: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎'],
+            legend: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎'],
             text: '基础 - 圆饼',
             seriesData: [
               { value: 335, name: '直接访问' },
