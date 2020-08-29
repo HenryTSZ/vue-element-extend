@@ -1,9 +1,19 @@
+const path = require('path')
+const isProd = process.env.NODE_ENV === 'production'
+function resolve(dir) {
+  return path.join(__dirname, dir)
+}
 module.exports = {
+  // 修改 src 为 examples
+  pages: {
+    index: 'examples/main.js'
+  },
+
   // 项目部署的基础路径
-  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
+  publicPath: isProd ? './' : '/',
 
   // 是否在保存的时候使用 `eslint-loader` 进行检查。
-  lintOnSave: process.env.NODE_ENV !== 'production',
+  lintOnSave: !isProd,
 
   // 是否为生产环境构建生成 source map？
   productionSourceMap: false,
@@ -14,14 +24,15 @@ module.exports = {
     return {
       resolve: {
         alias: {
-          vue$: 'vue/dist/vue.esm.js',
+          '@': resolve('examples'),
           api: '@/api',
           assets: '@/assets',
           components: '@/components',
           plugins: '@/plugins',
           store: '@/store',
           utils: '@/utils',
-          views: '@/views'
+          views: '@/views',
+          packages: resolve('packages')
         }
       }
     }
