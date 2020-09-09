@@ -3,7 +3,7 @@
  * @Date: 2020-01-31 11:15:30
  * @Description: https://vue-element-extend.now.sh/#/element-ui/TreeDemo
  * @LastEditors: HenryTSZ
- * @LastEditTime: 2020-06-14 15:19:36
+ * @LastEditTime: 2020-09-09 10:33:42
  -->
 <template>
   <div class="b-tree">
@@ -24,19 +24,27 @@
       :default-expand-all="defaultExpandAll"
       :default-expanded-keys="defaultExpandedKeys"
       :show-checkbox="showCheckbox"
-      v-on="$listeners"
+      :filter-node-method="filterNodeMethod"
+      v-on="{ ...$listeners, 'current-change': handleCurrentChange, 'node-click': handleNodeClick }"
       @check-change="handleCheckChange"
     >
-      <slot slot-scope="{ node, data }" v-bind="{ node, data }"> {{ node.label }} </slot>
+      <slot slot-scope="{ node, data }" v-bind="{ node, data }">
+        <text-ellipsis
+          :class="{ 'custom-disabled': node.disabled }"
+          :content="node.label"
+        ></text-ellipsis>
+      </slot>
     </el-tree>
   </div>
 </template>
 
 <script>
+import TextEllipsis from 'plugins/TextEllipsis'
 const childNodes = 'childNodes'
 
 export default {
   name: 'Tree',
+  components: { TextEllipsis },
   props: {
     data: {
       type: Array,
@@ -56,6 +64,21 @@ export default {
       type: Array,
       default() {
         return []
+      }
+    },
+    filterNodeMethod: {
+      type: Function,
+      default(value, data, node) {
+        if (!value) return true
+        let parentNode = node.parent,
+          labels = [node.label],
+          level = 1
+        while (level < node.level) {
+          labels = [...labels, parentNode.label]
+          parentNode = parentNode.parent
+          level++
+        }
+        return labels.some(label => label.indexOf(value) !== -1)
       }
     },
     showCheckAll: {
@@ -80,7 +103,8 @@ export default {
       isFirst: true,
       isIndeterminate: false,
       checkAll: false,
-      timeout: null
+      timeout: null,
+      currentKey: null
     }
   },
   watch: {
@@ -205,6 +229,25 @@ export default {
       this.isIndeterminate =
         allNodes.some(({ indeterminate }) => indeterminate) ||
         (allNodes.some(({ checked }) => checked) && !this.checkAll)
+    },
+    // 处理单选的 disabled
+    handleCurrentChange(data, node) {
+      const { key, disabled } = node
+      if (disabled) {
+        this.$refs[this.ref].setCurrentKey(this.currentKey)
+        return
+      }
+      this.currentKey = key
+      this.$emit('current-change', data, node)
+    },
+    handleNodeClick(data, node, self) {
+      const { disabled } = node
+      if (disabled) return
+      this.$emit('node-click', data, node, self)
+    },
+    // 过滤
+    filter(value) {
+      this.$refs[this.ref].filter(value)
     }
   },
   mounted() {
@@ -227,6 +270,10 @@ export default {
     .el-checkbox__label {
       color: #606266;
     }
+  }
+  .custom-disabled {
+    color: #94969a;
+    cursor: not-allowed;
   }
 }
 </style>

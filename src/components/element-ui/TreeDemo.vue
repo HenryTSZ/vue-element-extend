@@ -68,6 +68,8 @@
       @max-level="getMaxLevel"
       @check="check"
       @check-change="handleCheckChange"
+      @current-change="handleCurrentChange"
+      @node-click="handleNodeClick"
     ></component>
   </div>
 </template>
@@ -117,7 +119,8 @@ const data1 = [
     childrenList: [
       {
         menuId: 7,
-        menuName: '二级 3-1'
+        menuName: '二级 3-1',
+        disabled: true
       },
       {
         menuId: 8,
@@ -187,8 +190,15 @@ export default {
       level: 1,
       treeProps: {
         data: [],
-        props: { children: 'childrenList', label: 'menuName' },
+        props: {
+          children: 'childrenList',
+          label: 'menuName',
+          disabled(data) {
+            return data.menuId === 5
+          }
+        },
         showCheckbox: true,
+        highlightCurrent: true,
         showCheckAll: true,
         'default-checked-keys': [2, 8],
         // 'check-strictly': true,
@@ -245,6 +255,12 @@ export default {
         checked,
         indeterminate
       )
+    },
+    handleCurrentChange(data, node) {
+      console.log('handleCurrentChange -> data, node', data, node)
+    },
+    handleNodeClick(data, node, self) {
+      console.log('handleNodeClick -> data, node, self', data, node, self)
     }
   }
 }
