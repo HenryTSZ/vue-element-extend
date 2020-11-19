@@ -87,7 +87,7 @@ export default {
         dataSize = 30,
         statusSize = 14
       } = this.options
-      this.title = text || toolboxName || ''
+      this.title = text || toolboxName
       this.polar = {
         color,
         // 标题

@@ -44,7 +44,6 @@ export default {
         {
           id: 3,
           bar: {
-            isGradient: true,
             reverse: true,
             text: '反转',
             xAxis: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -80,3 +79,10 @@ export default {
   mounted() {}
 }
 </script>
+
+<style lang="less" scoped>
+.bar-arrow-chart {
+  display: flex;
+  justify-content: center;
+}
+</style>

@@ -123,7 +123,7 @@ export default {
     },
     // select 清空
     handleClear() {
-      if (this.$refs.tree.showCheckbox) {
+      if (this.isMultiple) {
         this.selectData = []
         this.$refs.tree.setCheckedKeys([])
       } else {
@@ -211,6 +211,10 @@ export default {
         out.push(first)
       }
       return out
+    },
+    // 过滤
+    filter(value) {
+      this.$refs.tree.filter(value)
     }
   },
   mounted() {
